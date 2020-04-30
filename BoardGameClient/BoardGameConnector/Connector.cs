@@ -65,11 +65,12 @@ namespace BoardGameConnector
             return string.Format("{0}/{1}", baseAddress, string.Join("/", Parts));
         }
 
-        public static Endpoint Matchlist() => new Endpoint("matches");
+        public static Endpoint Matchlist(bool from_lobby) => new Endpoint("matches", from_lobby ? "1": "0");
         public static Endpoint RegisterPlayer(string player_name) => new Endpoint("register", player_name);
         public static Endpoint NewGame(string game, string secret) => new Endpoint("match", "new", game, secret);
         public static Endpoint JoinMatch(string match_id) => new Endpoint("match", match_id, "join");
         public static Endpoint StartMatch(string match_id, string secret) => new Endpoint("match", match_id, "start", secret);
+        public static Endpoint QuitMatch(string match_id, string secret) => new Endpoint("match", match_id, "quit", secret);
         public static Endpoint GetState(string match_id, string secret) => new Endpoint("match", match_id, "state", secret);
         public static Endpoint ChooseOption(string match_id, string secret) => new Endpoint("match", match_id, "option", secret);
     }

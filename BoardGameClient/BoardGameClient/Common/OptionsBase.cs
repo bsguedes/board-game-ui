@@ -8,11 +8,12 @@ namespace BoardGameClient.Common
 {
     public class OptionsBase
     {
-        public int MaxPlayers { get; protected set; }
+        public int MaxPlayers { get; protected set; }        
     }
 
-    public interface IBoardGameOptionsViewModel
+    public abstract class OptionsViewModelBase : ViewModelBase
     {
-        OptionsBase LoadCurrentOptions();
+        public abstract OptionsBase LoadCurrentOptions();
+        internal abstract bool VerifyOptions();
     }
 }

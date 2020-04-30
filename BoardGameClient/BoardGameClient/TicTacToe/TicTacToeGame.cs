@@ -11,7 +11,8 @@ namespace BoardGameClient.TicTacToe
 {
     public class TicTacToeGame : Game
     {
-        public override string Name => "Tic Tac Toe";
+        public override string Name => "Tic Tac Toe";        
+
         private TicTacToeViewModel _model;
 
         protected override IBoardGameOptionsView BuildOptionsView()

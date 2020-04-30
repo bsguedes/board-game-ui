@@ -13,6 +13,7 @@
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <StackPanel Orientation="Vertical">
+        <TextBlock HorizontalAlignment="Right" Margin="10" Text="{Binding Ping, StringFormat=Ping: {0:D} ms}"/>
         <Label HorizontalAlignment="Center" Margin="10" Content="{Binding DisplayText}"/>
         <TextBlock HorizontalAlignment="Center" Margin="10" Text="{Binding CurrentPlayerCount, StringFormat=Players In Lobby: {0:D}}"/>
         <TextBlock HorizontalAlignment="Center" Margin="10" Text="{Binding MaxPlayers, StringFormat=(need {0:D} players)}"/>

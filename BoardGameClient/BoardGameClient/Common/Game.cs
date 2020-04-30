@@ -9,7 +9,7 @@ namespace BoardGameClient.Common
 {
     public abstract class Game
     {
-        public abstract string Name { get; }
+        public abstract string Name { get; }        
         internal string ID { get; private set; }
 
         protected abstract IBoardGameOptionsView BuildOptionsView();

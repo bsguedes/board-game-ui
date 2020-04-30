@@ -1,4 +1,5 @@
 ﻿using BoardGameClient.Common;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -44,6 +45,11 @@ namespace BoardGameClient
 
         public ObservableCollection<MatchDescriptor> MatchList { get; }
 
+        internal bool ValidateOptions()
+        {
+            return SelectedGame?.OptionsView.ViewModel.VerifyOptions() ?? false;
+        }
+
         private MatchDescriptor _selectedMatch;
         public MatchDescriptor SelectedMatch
         {
@@ -67,7 +73,7 @@ namespace BoardGameClient
         internal async void FindMatches()
         {
             this.MatchList.Clear();
-            IEnumerable<MatchDescriptor> matches = await GameLoader.Instance.LoadMatchesFromServer();
+            IEnumerable<MatchDescriptor> matches = await GameLoader.Instance.LoadMatchesFromServer(false);
             foreach (MatchDescriptor match in matches)
             {
                 this.MatchList.Add(match);
@@ -76,7 +82,7 @@ namespace BoardGameClient
 
         internal async Task<MatchDescriptor> HostMatch()
         {
-            MatchDescriptor match = await GameLoader.Instance.CreateMatch(SelectedNewGame, SelectedGame.OptionsView.GetOptions());
+            MatchDescriptor match = await GameLoader.Instance.HostMatch(SelectedNewGame, SelectedGame.OptionsView.GetOptions());
             return match;
         }
 
@@ -86,11 +92,15 @@ namespace BoardGameClient
             return match;
         }
 
-        internal async void RegisterPlayer()
+        internal async Task<bool> RegisterPlayer()
         {
-            PlayerDescriptor player = await GameLoader.Instance.RegisterPlayer(ServerIP, PlayerName);
-            GameLoader.Instance.Player = player;
-            IsSuccessfullyRegistered = true;
+            if (PlayerName.All(char.IsLetterOrDigit))
+            {
+                PlayerDescriptor player = await GameLoader.Instance.RegisterPlayer(ServerIP, PlayerName);
+                GameLoader.Instance.Player = player;
+                IsSuccessfullyRegistered = true;
+            }
+            return IsSuccessfullyRegistered;
         }
     }
 }

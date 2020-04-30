@@ -30,7 +30,7 @@ namespace BoardGameClient.TicTacToe.Options
             this.DataContext = this._ticTacToeOptionsViewModel;
         }
 
-        public ViewModelBase ViewModel => _ticTacToeOptionsViewModel;
+        public OptionsViewModelBase ViewModel => _ticTacToeOptionsViewModel;
 
         public UserControl AsUserControl()
         {

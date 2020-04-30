@@ -21,9 +21,9 @@ namespace BoardGameClient
         public PlayerDescriptor Player { get; internal set; }
         public string CurrentMatchID { get; private set; }
 
-        internal async Task<IEnumerable<MatchDescriptor>> LoadMatchesFromServer()
+        internal async Task<IEnumerable<MatchDescriptor>> LoadMatchesFromServer(bool fromLobby)
         {
-            Endpoint e = Endpoint.Matchlist();
+            Endpoint e = Endpoint.Matchlist(fromLobby);
             return await _gameServer.GetJSON<IEnumerable<MatchDescriptor>>(e);
         }        
 
@@ -42,7 +42,7 @@ namespace BoardGameClient
             return await _gameServer.PostJSON<PlayerDescriptor>(e, payload);            
         }
 
-        internal async Task<MatchDescriptor> CreateMatch(string gameName, OptionsBase options)
+        internal async Task<MatchDescriptor> HostMatch(string gameName, OptionsBase options)
         {
             Endpoint e = Endpoint.NewGame(_gameServer.TranslateGameName(gameName), Player.Secret);
             ConnectorPayloadBase payload = new NewMatchPayload(Player.Name, options);            
@@ -64,6 +64,14 @@ namespace BoardGameClient
             ConnectorPayloadBase payload = new OptionPayload(Player.Name);
             CurrentMatchID = selectedMatch.MatchId;
             return await _gameServer.PostJSON<MatchDescriptor>(e, payload);
+        }
+
+        internal async Task<PlayerDescriptor> QuitMatch(MatchDescriptor match)
+        {
+            Endpoint e = Endpoint.QuitMatch(match.MatchId, Player.Secret);
+            ConnectorPayloadBase payload = new OptionPayload(Player.Name);
+            PlayerDescriptor response = await _gameServer.PostJSON<PlayerDescriptor>(e, payload);
+            return response;
         }
 
         internal async Task<PlayerDescriptor> StartMatch(MatchDescriptor match)

@@ -49,9 +49,12 @@ namespace BoardGameClient.TicTacToe
             return false;            
         }
 
-        internal void SelectCell(string optionCode)
+        internal async void SelectCell(string optionCode)
         {
-            SelectOption(optionCode);
+            if (await SelectOption(optionCode))
+            {
+                await GetStateFromServer<TicTacToeStateDescriptor, TicTacToeOptionDescriptor>(); 
+            }
         }
 
         private TicTacToeBox[] InitializeBoxes(bool?[][] board)
@@ -59,9 +62,9 @@ namespace BoardGameClient.TicTacToe
             X = board.GetLength(0);
             Y = board[0].Length;
             TicTacToeBox[] boxes = new TicTacToeBox[X * Y];
-            for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
             {
-                for (int j = 0; j < Y; j++)
+                for (int i = 0; i < X; i++)
                 {
                     boxes[Y * i + j] = new TicTacToeBox();
                 }

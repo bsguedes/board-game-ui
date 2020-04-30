@@ -23,11 +23,16 @@ namespace BoardGameClient.TicTacToe.Options
         public int K { get; }
     }
 
-    public class TicTacToeOptionsViewModel : ViewModelBase, IBoardGameOptionsViewModel
+    public class TicTacToeOptionsViewModel : OptionsViewModelBase
     {
-        public OptionsBase LoadCurrentOptions()
+        public override OptionsBase LoadCurrentOptions()
         {
             return new TicTacToeOptions(X, Y, K);
+        }
+
+        internal override bool VerifyOptions()
+        {
+            return X >= K && Y >= K && K >= 3;
         }
 
         private int _x;

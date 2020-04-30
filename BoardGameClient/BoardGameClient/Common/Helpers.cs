@@ -11,6 +11,8 @@ namespace BoardGameClient.Common
     {
         UserControl AsUserControl();
         OptionsBase GetOptions();
-        ViewModelBase ViewModel { get; }
+        OptionsViewModelBase ViewModel { get; }
     }
+
+    public delegate void GameStartEventHandler();    
 }

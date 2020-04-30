@@ -24,12 +24,7 @@ namespace BoardGameClient
         {
             while (true)
             {
-                StateDescriptor<S, O> state = await GameLoader.Instance.LoadStateForPlayer<S, O>(GameLoader.Instance.CurrentMatchID, GameLoader.Instance.Player.Secret);
-                if (state.StateNo != LastState)
-                {
-                    MatchEnded = UpdateViewModel(state);
-                    LastState = state.StateNo;
-                }
+                await GetStateFromServer<S, O>();
                 if (PollingCancelled || MatchEnded)
                 {
                     break;
@@ -38,9 +33,22 @@ namespace BoardGameClient
             }
         }
 
-        internal async void SelectOption(string optionCode)
+        protected async Task GetStateFromServer<S, O>()
+            where S : GameStateDescriptor
+            where O : GameOptionsDescriptor
         {
-            await GameLoader.Instance.SelectOption(optionCode);
+            StateDescriptor<S, O> state = await GameLoader.Instance.LoadStateForPlayer<S, O>(GameLoader.Instance.CurrentMatchID, GameLoader.Instance.Player.Secret);
+            if (state.StateNo != LastState)
+            {
+                MatchEnded = UpdateViewModel(state);
+                LastState = state.StateNo;
+            }
+        }
+
+        internal async Task<bool> SelectOption(string optionCode)
+        {
+            PlayerDescriptor response = await GameLoader.Instance.SelectOption(optionCode);
+            return response.ValidMove;
         }
 
         internal abstract bool UpdateViewModel<S, O>(StateDescriptor<S, O> state)

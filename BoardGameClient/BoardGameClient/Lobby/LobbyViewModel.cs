@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BoardGameConnector;
 using System.Windows;
 using BoardGameClient.Common;
+using System.Diagnostics;
 
 namespace BoardGameClient.Lobby
 {
@@ -17,14 +18,22 @@ namespace BoardGameClient.Lobby
 
         public LobbyViewModel(MatchDescriptor match)
         {
-            _match = match;            
+            _match = match;
         }
 
         internal async void StartPolling()
         {
             while (true)
             {
-                IEnumerable<MatchDescriptor> currentStatus = await GameLoader.Instance.LoadMatchesFromServer();
+                if (PollingCancelled)
+                {
+                    break;
+                }
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
+                IEnumerable<MatchDescriptor> currentStatus = await GameLoader.Instance.LoadMatchesFromServer(true);
+                timer.Stop();
+                Ping = (int)timer.ElapsedMilliseconds;
                 _match = currentStatus.FirstOrDefault(x => x.MatchId == _match.MatchId);
                 if (_match != null)
                 {
@@ -33,16 +42,15 @@ namespace BoardGameClient.Lobby
                     IsHost = (_match.HostPlayer == GameLoader.Instance.Player.Name);
                     CurrentPlayerCount = _match.CurrentPlayers.Length;
                     DisplayText = IsGameReady ? "Game is ready to start!" : "Waiting for players...";
-                    if (!IsHost && _match.Status == "Started")
+                    if (_match.Status == "Started")
                     {
                         PollingCancelled = true;
-                        GameStarted(null, null);
-                    }
-                }
-                if (PollingCancelled || (IsGameReady && IsHost))
-                {
-                    break;
-                }
+                        if (!IsHost)
+                        {
+                            GameStarted();
+                        }
+                    }                    
+                }                
                 await Task.Delay(1000);
             }
         }
@@ -60,12 +68,20 @@ namespace BoardGameClient.Lobby
             if (IsHost)
             {
                 _ = await GameLoader.Instance.StartMatch(_match);
+                GameStarted();
                 return true;
             }
             return false;
         }
 
-        public event EventHandler GameStarted;
+        internal async Task<bool> QuitGame()
+        {            
+            _ = await GameLoader.Instance.QuitMatch(_match);
+            PollingCancelled = true;
+            return true;
+        }
+
+        public event GameStartEventHandler GameStarted;
 
         private int _currentPlayerCount;
         public int CurrentPlayerCount
@@ -100,7 +116,14 @@ namespace BoardGameClient.Lobby
         {
             get { return _isHost; }
             set { SetProperty(ref _isHost, value); }
-        }        
+        }
+
+        private int _ping;
+        public int Ping
+        {
+            get { return _ping; }
+            set { SetProperty(ref _ping, value); }
+        }
     }
 }        
 

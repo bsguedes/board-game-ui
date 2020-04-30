@@ -33,16 +33,23 @@ namespace BoardGameClient
 
         private async void JoinMatch_Click(object sender, RoutedEventArgs e)
         {
-            MatchDescriptor match = await _viewModel.JoinMatch();
+            MatchDescriptor match = await _viewModel.JoinMatch();            
             Window _lobbyWindow = new LobbyWindow(match) { Owner = this };
             _lobbyWindow.ShowDialog();
         }
     
         private async void HostMatch_Click(object sender, RoutedEventArgs e)
         {
-            MatchDescriptor match = await _viewModel.HostMatch();
-            Window _lobbyWindow = new LobbyWindow(match) { Owner = this };
-            _lobbyWindow.ShowDialog();
+            if (_viewModel.ValidateOptions())
+            {
+                MatchDescriptor match = await _viewModel.HostMatch();
+                Window _lobbyWindow = new LobbyWindow(match) { Owner = this };
+                _lobbyWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please check the game settings.", "Error");
+            }
         }        
 
         private void FindMatches_Click(object sender, RoutedEventArgs e)
@@ -56,9 +63,13 @@ namespace BoardGameClient
             optionsGrid.Children.Add(this._viewModel.SelectedGame.OptionsView.AsUserControl());
         }
 
-        private void RegisterPlayer_Click(object sender, RoutedEventArgs e)
+        private async void RegisterPlayer_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.RegisterPlayer();
+            bool registerSuccess = await _viewModel.RegisterPlayer();
+            if (!registerSuccess)
+            {
+                MessageBox.Show("User name contains invalid characters.", "Error");
+            }
         }
     }
 }

@@ -9,6 +9,7 @@
         >
     <Window.Resources>
         <local:NegateBooleanConverter x:Key="BoolInverterConverter"/>
+        <local:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
     </Window.Resources>
     <Grid>
         <DockPanel LastChildFill="True">
@@ -18,21 +19,28 @@
                 <Label Content="Player Name:"/>
                 <Button Content="Register" Width="200" DockPanel.Dock="Right"
                         Click="RegisterPlayer_Click"/>
-                <TextBox Text="{Binding PlayerName}" Width="Auto"></TextBox>
+                <TextBox Text="{Binding PlayerName}" MaxLength="20" Width="Auto"></TextBox>
             </DockPanel>
             <Line Margin="5" DockPanel.Dock="Top"/>
             <DockPanel DockPanel.Dock="Top" IsEnabled="{Binding IsSuccessfullyRegistered}">
                 <Label Content="Choose a Game to Host:"/>
                 <Button Content="Host New Match" Width="200" DockPanel.Dock="Right"
+                        IsEnabled="{Binding SelectedNewGame, Converter={StaticResource NullToBooleanConverter}}"
                         Click="HostMatch_Click"/>
                 <ComboBox ItemsSource="{Binding AvailableGames}" SelectedItem="{Binding SelectedNewGame}"
                           SelectionChanged="SelectedGame_SelectionChanged"/>
             </DockPanel>
-            <Grid Name="optionsGrid" Height="55" DockPanel.Dock="Top" IsEnabled="{Binding IsSuccessfullyRegistered}"/>
+            <Grid Name="optionsGrid" Height="55" DockPanel.Dock="Top" IsEnabled="{Binding IsSuccessfullyRegistered}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="777*"/>
+                    <ColumnDefinition Width="23*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
             <Line Margin="5" DockPanel.Dock="Top"/>
             <DockPanel DockPanel.Dock="Top" IsEnabled="{Binding IsSuccessfullyRegistered}">
                 <Label Content="Or join a game from the list below..." />
                 <Button Content="Join Match" Width="200" DockPanel.Dock="Right" HorizontalAlignment="Right"
+                        IsEnabled="{Binding SelectedMatch, Converter={StaticResource NullToBooleanConverter}}"
                         Click="JoinMatch_Click"/>
                 <Button Content="Find Matches" Width="200" DockPanel.Dock="Right" HorizontalAlignment="Right"
                         Click="FindMatches_Click"/>
