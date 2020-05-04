@@ -11,5 +11,6 @@ namespace BoardGameClient
         public string Name { get; set; }
         public string Secret { get; set; }    
         public bool ValidMove { get; set; }
+        public int Ping { get; set; }
     }
 }

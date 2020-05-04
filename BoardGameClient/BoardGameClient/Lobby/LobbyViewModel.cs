@@ -7,6 +7,7 @@ using BoardGameConnector;
 using System.Windows;
 using BoardGameClient.Common;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace BoardGameClient.Lobby
 {
@@ -19,6 +20,8 @@ namespace BoardGameClient.Lobby
         public LobbyViewModel(MatchDescriptor match)
         {
             _match = match;
+            GameName = match.Game;
+            PlayerList = new ObservableCollection<Tuple<string, int>>();            
         }
 
         internal async void StartPolling()
@@ -34,6 +37,7 @@ namespace BoardGameClient.Lobby
                 IEnumerable<MatchDescriptor> currentStatus = await GameLoader.Instance.LoadMatchesFromServer(true);
                 timer.Stop();
                 Ping = (int)timer.ElapsedMilliseconds;
+                GameLoader.Instance.Player.Ping = Ping;
                 _match = currentStatus.FirstOrDefault(x => x.MatchId == _match.MatchId);
                 if (_match != null)
                 {
@@ -41,6 +45,11 @@ namespace BoardGameClient.Lobby
                     IsGameReady = _match.CurrentPlayers.Length == _match.MaxPlayers;
                     IsHost = (_match.HostPlayer == GameLoader.Instance.Player.Name);
                     CurrentPlayerCount = _match.CurrentPlayers.Length;
+                    PlayerList.Clear();
+                    foreach ((string name, int ping) in _match.CurrentPlayers.Zip(_match.CurrentPings))
+                    {
+                        PlayerList.Add(new Tuple<string, int>(name, ping));                        
+                    }
                     DisplayText = IsGameReady ? "Game is ready to start!" : "Waiting for players...";
                     if (_match.Status == "Started")
                     {
@@ -50,7 +59,12 @@ namespace BoardGameClient.Lobby
                             GameStarted();
                         }
                     }                    
-                }                
+                }
+                else
+                {
+                    PollingCancelled = true;
+                    GameAborted();
+                }
                 await Task.Delay(1000);
             }
         }
@@ -82,6 +96,7 @@ namespace BoardGameClient.Lobby
         }
 
         public event GameStartEventHandler GameStarted;
+        public event GameAbortedEventHandler GameAborted;
 
         private int _currentPlayerCount;
         public int CurrentPlayerCount
@@ -124,6 +139,10 @@ namespace BoardGameClient.Lobby
             get { return _ping; }
             set { SetProperty(ref _ping, value); }
         }
+
+        public ObservableCollection<Tuple<string, int>> PlayerList { get; set; }
+
+        public string GameName { get; }
     }
 }        
 

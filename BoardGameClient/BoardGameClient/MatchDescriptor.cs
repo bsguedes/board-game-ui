@@ -10,6 +10,7 @@ namespace BoardGameClient
         public int MaxPlayers { get; set; }
         public string HostPlayer { get; set; }
         public string[] CurrentPlayers { get; set; }        
+        public int[] CurrentPings { get; set; }
         public string Status { get; set; } 
         public string MatchId { get; set; }        
     }    
@@ -34,5 +35,16 @@ namespace BoardGameClient
         }
 
         public string OptionCode { get; set; }        
+    }
+
+    public class NetworkPayload : ConnectorPayloadBase
+    {
+        public NetworkPayload(string playerName, int playerPing)
+        {
+            Player = playerName;
+            Ping = playerPing;
+        }
+
+        public int Ping { get; set; }
     }
 }

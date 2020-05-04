@@ -8,15 +8,42 @@
         BorderBrush="DarkGray" ResizeMode="NoResize" WindowStyle="None" 
         HorizontalAlignment="Center" VerticalAlignment="Center" 
         ShowInTaskbar="False" WindowStartupLocation="CenterOwner"
-        Title="LobbyWindow" Height="200" Width="350">
+        Title="LobbyWindow" Height="300" Width="350">
     <Window.Resources>
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <StackPanel Orientation="Vertical">
-        <TextBlock HorizontalAlignment="Right" Margin="10" Text="{Binding Ping, StringFormat=Ping: {0:D} ms}"/>
+        <DockPanel HorizontalAlignment="Center" Width="300" Margin="10 20 10 0">
+            <TextBlock DockPanel.Dock="Left" Text="{Binding GameName, StringFormat=Game Lobby: {0}}"/>
+            <TextBlock DockPanel.Dock="Right" Text="{Binding Ping, StringFormat=Ping: {0:D} ms}" TextAlignment="Right" HorizontalAlignment="Right"/>
+        </DockPanel>
         <Label HorizontalAlignment="Center" Margin="10" Content="{Binding DisplayText}"/>
         <TextBlock HorizontalAlignment="Center" Margin="10" Text="{Binding CurrentPlayerCount, StringFormat=Players In Lobby: {0:D}}"/>
         <TextBlock HorizontalAlignment="Center" Margin="10" Text="{Binding MaxPlayers, StringFormat=(need {0:D} players)}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10 0" Text="Currently in lobby:"/>
+        <ListBox ItemsSource="{Binding PlayerList}" Height="70" Margin="5" BorderThickness="0">
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                    </Style.Resources>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="300">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Item1}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Item2, StringFormat={}{0:D} ms}" HorizontalAlignment="Right"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Margin="10" Content="Start Game" IsEnabled="{Binding IsGameReady}" Click="StartGame_Click" Width="100" HorizontalAlignment="Center"
                     Visibility="{Binding IsHost, Converter={StaticResource BoolToVisibilityConverter}}"/>

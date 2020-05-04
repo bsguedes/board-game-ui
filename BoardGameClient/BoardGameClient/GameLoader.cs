@@ -24,7 +24,8 @@ namespace BoardGameClient
         internal async Task<IEnumerable<MatchDescriptor>> LoadMatchesFromServer(bool fromLobby)
         {
             Endpoint e = Endpoint.Matchlist(fromLobby);
-            return await _gameServer.GetJSON<IEnumerable<MatchDescriptor>>(e);
+            ConnectorPayloadBase payload = new NetworkPayload(Player.Name, Player.Ping);
+            return await _gameServer.PostJSON<IEnumerable<MatchDescriptor>>(e, payload);
         }        
 
         internal async Task<StateDescriptor<S, O>> LoadStateForPlayer<S, O>(string matchId, string secret)

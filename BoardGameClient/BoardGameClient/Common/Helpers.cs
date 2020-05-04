@@ -14,5 +14,6 @@ namespace BoardGameClient.Common
         OptionsViewModelBase ViewModel { get; }
     }
 
-    public delegate void GameStartEventHandler();    
+    public delegate void GameStartEventHandler();
+    public delegate void GameAbortedEventHandler();
 }

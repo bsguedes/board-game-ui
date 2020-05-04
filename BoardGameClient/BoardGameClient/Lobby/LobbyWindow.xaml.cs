@@ -11,9 +11,12 @@ namespace BoardGameClient.Lobby
 
         public LobbyWindow(MatchDescriptor match)
         {
-            InitializeComponent();
-            this._viewModel = new LobbyViewModel(match);            
-            this._viewModel.GameStarted += () => LoadGameUI();            
+            this._viewModel = new LobbyViewModel(match);
+            
+            InitializeComponent();                 
+
+            this._viewModel.GameStarted += () => LoadGameUI();
+            this._viewModel.GameAborted += () => AbortGame();
             DataContext = this._viewModel;
             this._viewModel.StartPolling();
         }
@@ -40,6 +43,12 @@ namespace BoardGameClient.Lobby
             _gameWindow.Owner = this.Owner;
             this.Close();
             _gameWindow.ShowDialog();
+        }
+
+        private void AbortGame()
+        {
+            this.Close();
+            MessageBox.Show("Game ended by the host.", "Error");
         }
     }
 }
