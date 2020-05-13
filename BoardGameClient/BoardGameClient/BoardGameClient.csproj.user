@@ -1,22 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
-  <ItemGroup>
-    <ApplicationDefinition Update="App.xaml">
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="TicTacToe\TicTacToeView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="TicTacToe\TicTacToeView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishUrlHistory>E:\git\board-game-ui\publish\|C:\Users\bruno\Dropbox\BoardGameClient\|ftp://ftp.drivehq.com/|C:\Users\bruno\Dropbox\BoardGameClient|ftp.drivehq.com\</PublishUrlHistory>
+    <InstallUrlHistory>https://raw.githubusercontent.com/bsguedes/board-game-ui/master/publish/|https://raw.githubusercontent.com/bsguedes/board-game-ui/master/|https://www.drivehq.com/folder/p14883853.aspx/|https://www.dropbox.com/sh/v2w1ikg9xezuf0w/AAAcijKoVhj4rkd7TsB7gGjta%3fdl=0/</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>pt-BR</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
 </Project>

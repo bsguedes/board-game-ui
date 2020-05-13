@@ -46,7 +46,7 @@ namespace BoardGameClient.Lobby
                     IsHost = (_match.HostPlayer == GameLoader.Instance.Player.Name);
                     CurrentPlayerCount = _match.CurrentPlayers.Length;
                     PlayerList.Clear();
-                    foreach ((string name, int ping) in _match.CurrentPlayers.Zip(_match.CurrentPings))
+                    foreach ((string name, int ping) in _match.CurrentPlayers.Zip(_match.CurrentPings, (a, b) => (a, b)))
                     {
                         PlayerList.Add(new Tuple<string, int>(name, ping));                        
                     }
@@ -58,14 +58,14 @@ namespace BoardGameClient.Lobby
                         {
                             GameStarted();
                         }
-                    }                    
+                    }
+                    await Task.Delay(1000);
                 }
                 else
                 {
                     PollingCancelled = true;
                     GameAborted();
-                }
-                await Task.Delay(1000);
+                }                
             }
         }
 
