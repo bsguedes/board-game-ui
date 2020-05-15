@@ -10,7 +10,7 @@ namespace BoardGameClient
     internal sealed class GameLoader
     {
         static GameLoader() { }
-        Connector _gameServer;
+        readonly Connector _gameServer;
 
         private GameLoader()
         {
@@ -23,10 +23,16 @@ namespace BoardGameClient
 
         internal async Task<IEnumerable<MatchDescriptor>> LoadMatchesFromServer(bool fromLobby)
         {
-            Endpoint e = Endpoint.Matchlist(fromLobby);
+            Endpoint e = Endpoint.MatchList(fromLobby);
             ConnectorPayloadBase payload = new NetworkPayload(Player.Name, Player.Ping);
             return await _gameServer.PostJSON<IEnumerable<MatchDescriptor>>(e, payload);
         }        
+
+        internal async Task<IEnumerable<PlayerDescriptor>> LoadPlayersFromServer()
+        {
+            Endpoint e = Endpoint.PlayerList();
+            return await _gameServer.GetJSON<IEnumerable<PlayerDescriptor>>(e);
+        }
 
         internal async Task<StateDescriptor<S, O>> LoadStateForPlayer<S, O>(string matchId, string secret)
             where S : GameStateDescriptor

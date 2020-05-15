@@ -4,10 +4,13 @@
     <PublishUrlHistory>E:\Publish\BGClient\</PublishUrlHistory>
     <InstallUrlHistory>http://board-game-ui.s3.amazonaws.com/</InstallUrlHistory>
     <SupportUrlHistory />
-    <UpdateUrlHistory />
+    <UpdateUrlHistory>http://board-game-ui.s3.amazonaws.com/</UpdateUrlHistory>
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
 </Project>

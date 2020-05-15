@@ -28,7 +28,11 @@ namespace BoardGameClient
             InitializeComponent();
             this._viewModel = new GameLoaderViewModel();
             DataContext = this._viewModel;
+#if DEBUG
             this._viewModel.ServerIP = "http://127.0.0.1:5000";
+#else
+            this._viewModel.ServerIP = "https://boardgames-server.herokuapp.com/";
+#endif
         }
 
         private async void JoinMatch_Click(object sender, RoutedEventArgs e)

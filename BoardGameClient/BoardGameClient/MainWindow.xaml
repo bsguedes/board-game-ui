@@ -38,12 +38,13 @@
             </Grid>
             <Line Margin="5" DockPanel.Dock="Top"/>
             <DockPanel DockPanel.Dock="Top" IsEnabled="{Binding IsSuccessfullyRegistered}">
-                <Label Content="Or join a game from the list below..." />
+                <TextBlock Text="Or join a game from the list below..." Margin="4"/>
                 <Button Content="Join Match" Width="200" DockPanel.Dock="Right" HorizontalAlignment="Right"
                         IsEnabled="{Binding SelectedMatch, Converter={StaticResource NullToBooleanConverter}}"
                         Click="JoinMatch_Click"/>
                 <Button Content="Find Matches" Width="200" DockPanel.Dock="Right" HorizontalAlignment="Right"
                         Click="FindMatches_Click"/>
+                <TextBlock Text="{Binding PlayerCount, StringFormat=- {0:D} player(s) online}" Margin="4" DockPanel.Dock="Right"/>
             </DockPanel>
             <ListView ItemsSource="{Binding MatchList}" SelectedItem="{Binding SelectedMatch}" IsEnabled="{Binding IsSuccessfullyRegistered}">
                 <ListView.View>

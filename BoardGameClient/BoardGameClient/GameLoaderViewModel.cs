@@ -43,6 +43,13 @@ namespace BoardGameClient
             set { SetProperty(ref _selectedNewGame, value); }
         }
 
+        private int _playerCount;
+        public int PlayerCount
+        {
+            get { return _playerCount; }
+            set { SetProperty(ref _playerCount, value); }
+        }
+
         public ObservableCollection<MatchDescriptor> MatchList { get; }
 
         internal bool ValidateOptions()
@@ -78,6 +85,8 @@ namespace BoardGameClient
             {
                 this.MatchList.Add(match);
             }
+            IEnumerable<PlayerDescriptor> players = await GameLoader.Instance.LoadPlayersFromServer();
+            this.PlayerCount = players.Count();
         }
 
         internal async Task<MatchDescriptor> HostMatch()
