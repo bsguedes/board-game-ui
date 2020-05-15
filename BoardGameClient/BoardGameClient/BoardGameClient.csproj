@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{83A329BD-DEB5-441D-84FC-F151659B22EB}</ProjectGuid>
+    <ProjectGuid>{05A61EDD-8EB2-40F8-8191-C97442366BD6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>BoardGameClient</RootNamespace>
     <AssemblyName>BoardGameClient</AssemblyName>
@@ -15,7 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>E:\git\board-game-ui\publish\</PublishUrl>
+    <PublishUrl>E:\Publish\BGClient\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -25,10 +25,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://raw.githubusercontent.com/bsguedes/board-game-ui/master/publish/</InstallUrl>
-    <UpdateUrl>https://raw.githubusercontent.com/bsguedes/board-game-ui/master/publish/</UpdateUrl>
-    <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <InstallUrl>http://board-game-ui.s3.amazonaws.com/</InstallUrl>
+    <UpdateUrl>http://board-game-ui.s3.amazonaws.com/</UpdateUrl>
+    <ProductName>Board Game Client</ProductName>
+    <PublisherName>Bruno Guedes</PublisherName>
+    <SuiteName>BoardGameClient</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>index.html</WebPage>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -54,29 +59,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>meeple.ico</ApplicationIcon>
+    <ManifestCertificateThumbprint>0A9FE347FD39C297A33ED8305DEC00A70FCB0B84</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
+    <ManifestKeyFile>BoardGameClient_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>8129A4C7E0F43D404DD720C55F8657F13CE7252B</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>BoardGameClient_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ApplicationIcon>meeple.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.7.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -95,12 +119,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters.cs" />
-    <Compile Include="GameLoader.cs" />
-    <Compile Include="GameLoaderViewModel.cs" />
-    <Compile Include="GameViewModelBase.cs" />
-    <Compile Include="MatchDescriptor.cs" />
-    <Compile Include="PlayerDescriptor.cs" />
+    <Compile Include="Common\Game.cs" />
+    <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\OptionsBase.cs" />
+    <Compile Include="Lobby\LobbyViewModel.cs" />
+    <Compile Include="Lobby\LobbyWindow.xaml.cs">
+      <DependentUpon>LobbyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StateDescriptor.cs" />
     <Compile Include="TicTacToe\Options\TicTacToeOptions.cs" />
     <Compile Include="TicTacToe\Options\TicTacToeOptionsView.xaml.cs">
@@ -125,13 +150,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\Game.cs" />
-    <Compile Include="Common\Helpers.cs" />
-    <Compile Include="Common\OptionsBase.cs" />
-    <Compile Include="Lobby\LobbyViewModel.cs" />
-    <Compile Include="Lobby\LobbyWindow.xaml.cs">
-      <DependentUpon>LobbyWindow.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Converters.cs" />
+    <Compile Include="GameLoader.cs" />
+    <Compile Include="GameLoaderViewModel.cs" />
+    <Compile Include="GameViewModelBase.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -146,6 +168,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MatchDescriptor.cs" />
+    <Compile Include="PlayerDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,7 +187,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Properties\app.manifest" />
+    <None Include="BoardGameClient_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -173,18 +198,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="meeple.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BoardGameConnector\BoardGameConnector.csproj">
-      <Project>{034889f7-60b5-4da1-b801-9538eba985a4}</Project>
+      <Project>{54d8c26f-fd73-4abe-b2c3-0a6a1aebd508}</Project>
       <Name>BoardGameConnector</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="meeple.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 e x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

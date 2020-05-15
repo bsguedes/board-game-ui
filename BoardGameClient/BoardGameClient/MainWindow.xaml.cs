@@ -21,7 +21,7 @@ namespace BoardGameClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameLoaderViewModel _viewModel;
+        private readonly GameLoaderViewModel _viewModel;
 
         public MainWindow()
         {

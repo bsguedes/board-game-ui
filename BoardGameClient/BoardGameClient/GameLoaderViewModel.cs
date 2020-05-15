@@ -57,7 +57,7 @@ namespace BoardGameClient
             set { SetProperty(ref _selectedMatch, value); }
         }
 
-        Dictionary<string, Game> _gameOptions = new Dictionary<string, Game>();
+        readonly Dictionary<string, Game> _gameOptions = new Dictionary<string, Game>();
         internal Game SelectedGame
         {
             get

@@ -8,7 +8,7 @@ namespace BoardGameConnector
     public class Connector
     {
         public string Address { get; private set; }
-        private HttpClient _server;
+        private readonly HttpClient _server;
 
         public Connector()
         {
@@ -17,6 +17,10 @@ namespace BoardGameConnector
 
         public void SetAddress(string address)
         {
+            while (address.EndsWith("/"))
+            {
+                address = address.Substring(0, address.LastIndexOf('/'));
+            }
             Address = address;
         }
 
