@@ -11,6 +11,7 @@ namespace BoardGameClient
         public GameLoaderViewModel()
         {
             MatchList = new ObservableCollection<MatchDescriptor>();
+            RegistrationState = "Register";
         }
 
         private string _serverIP;
@@ -18,6 +19,13 @@ namespace BoardGameClient
         {
             get { return _serverIP; }
             set { SetProperty(ref _serverIP, value); }
+        }
+
+        private string _registrationState;
+        public string RegistrationState
+        {
+            get { return _registrationState; }
+            set { SetProperty(ref _registrationState, value); }
         }
 
         private string _playerName;
@@ -34,7 +42,14 @@ namespace BoardGameClient
             set { SetProperty(ref _isSuccessfullyRegistered, value); }
         }
 
-        public string[] AvailableGames => new string[] { "Tic Tac Toe" };
+        private bool _registering;
+        public bool Registering
+        {
+            get { return _registering; }
+            set { SetProperty(ref _registering, value); }
+        }
+
+        public string[] AvailableGames => new string[] { "Tic Tac Toe", "Classificação Etária" };
 
         private string _selectedNewGame;
         public string SelectedNewGame
@@ -103,11 +118,25 @@ namespace BoardGameClient
 
         internal async Task<bool> RegisterPlayer()
         {
-            if (PlayerName.All(char.IsLetterOrDigit))
+            try
             {
-                PlayerDescriptor player = await GameLoader.Instance.RegisterPlayer(ServerIP, PlayerName);
-                GameLoader.Instance.Player = player;
-                IsSuccessfullyRegistered = true;
+                RegistrationState = "Registering...";
+                Registering = true;
+                if (PlayerName.All(char.IsLetterOrDigit))
+                {
+                    PlayerDescriptor player = await GameLoader.Instance.RegisterPlayer(ServerIP, PlayerName);
+                    GameLoader.Instance.Player = player;
+                    RegistrationState = "Logged in!";
+                    IsSuccessfullyRegistered = true;
+                }
+            }
+            catch
+            {
+                RegistrationState = "Register";
+            }
+            finally
+            {
+                Registering = false;
             }
             return IsSuccessfullyRegistered;
         }

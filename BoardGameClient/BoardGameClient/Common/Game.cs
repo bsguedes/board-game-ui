@@ -50,6 +50,8 @@ namespace BoardGameClient.Common
             {
                 case "Tic Tac Toe":
                     return new TicTacToe.TicTacToeGame();
+                case "Classificação Etária":
+                    return new CE.CEGame();
             }
             return null;
         }

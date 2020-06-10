@@ -14,7 +14,7 @@ namespace BoardGameClient.TicTacToe
 {    
     public partial class TicTacToeView : Window
     {
-        private TicTacToeViewModel _viewModel;
+        private readonly TicTacToeViewModel _viewModel;
 
         public TicTacToeView(TicTacToeViewModel vm)
         {

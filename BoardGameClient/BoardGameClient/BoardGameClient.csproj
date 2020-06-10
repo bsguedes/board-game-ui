@@ -32,7 +32,7 @@
     <SuiteName>BoardGameClient</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -82,6 +82,7 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -119,6 +120,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CE\CEGame.cs" />
+    <Compile Include="CE\CEView.xaml.cs">
+      <DependentUpon>CEView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\CEViewModel.cs" />
+    <Compile Include="CE\Options\CEOptions.cs" />
+    <Compile Include="CE\Options\CEOptionsView.xaml.cs">
+      <DependentUpon>CEOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Game.cs" />
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\OptionsBase.cs" />
@@ -138,6 +148,14 @@
     </Compile>
     <Compile Include="TicTacToe\TicTacToeViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Page Include="CE\CEView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Options\CEOptionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Lobby\LobbyWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -218,5 +236,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

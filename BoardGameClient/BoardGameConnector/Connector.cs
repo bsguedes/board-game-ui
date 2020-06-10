@@ -46,6 +46,8 @@ namespace BoardGameConnector
             {
                 case "Tic Tac Toe":
                     return "tictactoe";
+                case "Classificação Etária":
+                    return "ce";
                 default:
                     return null;
             }

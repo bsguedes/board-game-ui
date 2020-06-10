@@ -17,8 +17,8 @@
                 <Label Content="Server Address:"/>
                 <TextBox Text="{Binding ServerIP}" Width="200"></TextBox>
                 <Label Content="Player Name:"/>
-                <Button Content="Register" Width="200" DockPanel.Dock="Right"
-                        Click="RegisterPlayer_Click"/>
+                <Button Content="{Binding RegistrationState}" Width="200" DockPanel.Dock="Right"
+                        Click="RegisterPlayer_Click" IsEnabled="{Binding Registering, Converter={StaticResource BoolInverterConverter}}"/>
                 <TextBox Text="{Binding PlayerName}" MaxLength="20" Width="Auto"></TextBox>
             </DockPanel>
             <Line Margin="5" DockPanel.Dock="Top"/>

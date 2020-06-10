@@ -1,18 +1,6 @@
 ﻿using BoardGameClient.Lobby;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BoardGameClient
 {
@@ -27,9 +15,10 @@ namespace BoardGameClient
         {
             InitializeComponent();
             this._viewModel = new GameLoaderViewModel();
+            this.Title = $"Board Game Client - {Common.Helpers.GetVersion()}";
             DataContext = this._viewModel;
 #if DEBUG
-            this._viewModel.ServerIP = "http://127.0.0.1:5000";
+            this._viewModel.ServerIP = "http://localhost:5000";
 #else
             this._viewModel.ServerIP = "https://boardgames-server.herokuapp.com/";
 #endif
@@ -68,12 +57,12 @@ namespace BoardGameClient
         }
 
         private async void RegisterPlayer_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             bool registerSuccess = await _viewModel.RegisterPlayer();
             if (!registerSuccess)
             {
                 MessageBox.Show("User name contains invalid characters.", "Error");
-            }
+            }            
         }
     }
 }

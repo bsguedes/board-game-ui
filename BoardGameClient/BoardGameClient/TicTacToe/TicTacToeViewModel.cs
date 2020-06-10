@@ -7,7 +7,7 @@ namespace BoardGameClient.TicTacToe
 {
     public class TicTacToeViewModel : GameViewModelBase
     {
-        Dictionary<bool, string> _symbols = new Dictionary<bool, string>();
+        private readonly Dictionary<bool, string> _symbols = new Dictionary<bool, string>();
 
         public TicTacToeViewModel(MatchDescriptor match) : base(match)
         {            
@@ -41,10 +41,15 @@ namespace BoardGameClient.TicTacToe
                     Boxes[Y * i + j].OptionCode = options?.FirstOrDefault(x => x.Option.X == i && x.Option.Y == j)?.OptionCode;                        
                 }
             }
-            if (descriptor.Message != null)
+            bool gameOver = descriptor.Message != null;
+            if (gameOver)
             {
                 EndgameMessage = descriptor.Message;
                 return true;
+            } 
+            else
+            {
+                EndgameMessage = $"{state.CurrentPlayer}'s turn";
             }
             return false;            
         }
