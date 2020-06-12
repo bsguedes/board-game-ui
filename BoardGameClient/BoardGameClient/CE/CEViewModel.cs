@@ -11,12 +11,15 @@ namespace BoardGameClient.CE
         public CEViewModel(MatchDescriptor match) 
             : base(match)
         {
-            
+            StartPollingState<CEStateDescriptor, CEOptionDescriptor>();
         }
 
         internal override bool UpdateViewModel<S, O>(StateDescriptor<S, O> state)
         {
-            throw new NotImplementedException();
-        }
+            CEStateDescriptor descriptor = state.State as CEStateDescriptor;
+            OptionsDescriptor<CEOptionDescriptor>[] options = state.Options as OptionsDescriptor<CEOptionDescriptor>[];
+
+            return false;
+        }        
     }
 }

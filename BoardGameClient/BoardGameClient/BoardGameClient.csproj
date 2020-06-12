@@ -121,6 +121,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CE\CEGame.cs" />
+    <Compile Include="CE\CEOptionDescriptor.cs" />
+    <Compile Include="CE\CEStateDescriptor.cs" />
     <Compile Include="CE\CEView.xaml.cs">
       <DependentUpon>CEView.xaml</DependentUpon>
     </Compile>

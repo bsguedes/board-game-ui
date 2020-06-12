@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Text;
+using System;
 
 namespace BoardGameConnector
 {
@@ -26,19 +27,35 @@ namespace BoardGameConnector
 
         public async Task<T> GetJSON<T>(Endpoint endPoint)
         {
-            string content = await _server.GetStringAsync(endPoint.ComposeAddress(Address));
-            T responseBody = JsonSerializer.Deserialize<T>(content);
-            return responseBody;
+            try
+            {
+                string content = await _server.GetStringAsync(endPoint.ComposeAddress(Address));
+                T responseBody = JsonSerializer.Deserialize<T>(content);
+                return responseBody;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return default(T);
+            }
         }
 
         public async Task<T> PostJSON<T>(Endpoint endPoint, ConnectorPayloadBase payload)
         {
-            StringContent requestBody = new StringContent(payload.AsJson(), Encoding.UTF8, "application/json");
-            var response = await _server.PostAsync(endPoint.ComposeAddress(Address), requestBody);
-            string content = await response.Content.ReadAsStringAsync();
-            T responseBody = JsonSerializer.Deserialize<T>(content);
-            return responseBody;
-        }        
+            try
+            {
+                StringContent requestBody = new StringContent(payload.AsJson(), Encoding.UTF8, "application/json");
+                var response = await _server.PostAsync(endPoint.ComposeAddress(Address), requestBody);
+                string content = await response.Content.ReadAsStringAsync();
+                T responseBody = JsonSerializer.Deserialize<T>(content);
+                return responseBody;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return default(T);
+            }
+        }    
 
         public string TranslateGameName(string gameName)
         {
