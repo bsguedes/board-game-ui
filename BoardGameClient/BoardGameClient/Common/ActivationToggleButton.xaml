@@ -1,0 +1,42 @@
+﻿<ToggleButton x:Class="BoardGameClient.Common.ActivationToggleButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BoardGameClient.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <ToggleButton.Template>
+        <ControlTemplate TargetType="{x:Type local:ActivationToggleButton}">
+            <Border BorderBrush="Chartreuse" BorderThickness="3" CornerRadius="1" x:Name="ActivationButtonBorder">
+                <ContentPresenter x:Name="InternalContent" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="CanBeClicked" Value="False">
+                    <Setter TargetName="ActivationButtonBorder" Property="BorderBrush" Value="Transparent" />
+                </Trigger>
+                <Trigger Property="CanBeClicked" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+                <Trigger Property="IsLocked" Value="True">
+                    <Setter TargetName="ActivationButtonBorder" Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="Opacity" Value="0.4" />
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter TargetName="InternalContent" Property="Opacity">
+                        <Setter.Value>
+                            <Binding Path="OpacityWhenUnchecked" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=local:ActivationToggleButton}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="ActivationButtonBorder" Property="Background" >
+                        <Setter.Value>
+                            <Binding Path="BackgroundColorWhenChecked" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=local:ActivationToggleButton}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </ToggleButton.Template>
+</ToggleButton>

@@ -10,14 +10,14 @@ namespace BoardGameClient
     {
         public int StateNo { get; set; }
         public string GameStatus { get; set; }
-        public S State { get; set; }
+        public S State { get; set; }        
         public string CurrentPlayer { get; set; }
         public OptionsDescriptor<O>[] Options { get; set; }
     }
 
     public abstract class GameStateDescriptor
     {
-
+        public string StateName { get; set; }
     }
 
     public class OptionsDescriptor<O>

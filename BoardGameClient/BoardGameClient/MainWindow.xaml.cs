@@ -1,12 +1,14 @@
-﻿using BoardGameClient.Lobby;
+﻿using BoardGameClient.CE.Controls;
+using BoardGameClient.CE.Controls.CardParts;
+using BoardGameClient.Lobby;
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace BoardGameClient
 {
-    /// <summary>
-    /// Interação lógica para MainWindow.xam
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly GameLoaderViewModel _viewModel;
@@ -22,6 +24,11 @@ namespace BoardGameClient
 #else
             this._viewModel.ServerIP = "https://boardgames-server.herokuapp.com/";
 #endif
+
+
+            //Window w = new TestWindow();
+            //w.Show();
+
         }
 
         private async void JoinMatch_Click(object sender, RoutedEventArgs e)

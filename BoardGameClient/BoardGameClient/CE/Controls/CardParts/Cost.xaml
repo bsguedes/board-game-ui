@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="BoardGameClient.CE.Controls.CardParts.Cost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Width="85" Height="90" 
+             xmlns:conv="clr-namespace:BoardGameClient.CE"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:ProgrammingCodeToImageConverter x:Key="ProgrammingCodeToImageConverter"/>
+        <conv:AbilityTextToInlineCollectionConverter x:Key="TalentStringToInlineCollectionConverter"/>
+    </UserControl.Resources>
+    <Border BorderBrush="Black" BorderThickness="1 0 1 1" CornerRadius="0 0 3 3" Background="LightGray" x:Name="LayoutRoot">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="28"/>
+            </Grid.RowDefinitions>
+            <Image Source="{Binding ValidProgrammingRows, Converter={StaticResource ProgrammingCodeToImageConverter}}" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock conv:TextBlockExtensions.BindableInlines="{Binding TalentString, Converter={StaticResource TalentStringToInlineCollectionConverter}}"                        
+                       TextAlignment="Center" FontSize="16" FontFamily="Arial" FontWeight="Bold"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" />
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="BoardGameClient.CE.Controls.ProgrammingRow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:common="clr-namespace:BoardGameClient.Common"
+             xmlns:local="clr-namespace:BoardGameClient.CE.Controls"
+             xmlns:conv="clr-namespace:BoardGameClient.CE"
+             xmlns:converter="clr-namespace:BoardGameClient"             
+             mc:Ignorable="d" 
+             d:DesignHeight="160" d:DesignWidth="800">
+    <Grid>
+        <Grid.Resources>
+            <conv:AbilityTextToInlineCollectionConverter x:Key="AbilityTextToInlineCollectionConverter"/>
+            <conv:BoardSlotToRowModelConverter x:Key="BoardSlotToRowModelConverter"/>
+            <conv:BoardSlotCanBeClickedConverter x:Key="BoardSlotCanBeClickedConverter"/>
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" x:Name="FirstColumn">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="14" FontFamily="Arial" FontStretch="Condensed"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       TextWrapping="Wrap" TextAlignment="Center">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Text" Value="CAÇAR TALENTOS"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RowResource}" Value="Cash" >
+                                <Setter Property="Text" Value="EXIBIR COMERCIAIS"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RowResource}" Value="Cards" >
+                                <Setter Property="Text" Value="RECRUTAR ATRAÇÕES"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Image Grid.Row="1" Height="48" HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="/BoardGameClient;component/Resources/A1.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RowResource}" Value="Cash">
+                                <Setter Property="Source" Value="/BoardGameClient;component/Resources/A2.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RowResource}" Value="Cards">
+                                <Setter Property="Source" Value="/BoardGameClient;component/Resources/A3.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>    
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Border Grid.Row="2" Margin="0 2" Background="DarkGoldenrod">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"
+                           FontSize="9" FontFamily="Arial"
+                           Text="Então ative, opcionalmente, cada habilidade QUANDO ATIVADO nesta linha, da direita para a esquerda."/>
+            </Border>
+        </Grid>
+        <ItemsControl Grid.Column="1" Grid.ColumnSpan="5">
+            <ItemsControl.ItemsSource>
+                <MultiBinding Converter="{StaticResource BoardSlotToRowModelConverter}">
+                    <Binding Path="Cards" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=local:ProgrammingRow}"/>
+                    <Binding Path="RowResource" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=local:ProgrammingRow}"/>
+                </MultiBinding>
+            </ItemsControl.ItemsSource>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="5" Rows="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border CornerRadius="1" BorderBrush="Gray" BorderThickness="1" Margin="4 2">
+                        <Grid>
+                            <common:ActivationButton Margin="3" Visibility="{Binding HasCard, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
+                                <common:ActivationButton.CanBeClicked>
+                                    <MultiBinding Converter="{StaticResource BoardSlotCanBeClickedConverter}" ConverterParameter="PlayerTurn">
+                                        <Binding Path="StateName" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=local:ProgrammingRow}"/>
+                                        <Binding Path="CurrentOptions" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=local:ProgrammingRow}"/>
+                                        <Binding Path="RowResource" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=local:ProgrammingRow}"/>
+                                        <Binding Path="Position"/>
+                                    </MultiBinding>
+                                </common:ActivationButton.CanBeClicked>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock conv:TextBlockExtensions.BindableInlines="{Binding SlotReward, Converter={StaticResource AbilityTextToInlineCollectionConverter}, ConverterParameter=25}" 
+									           Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                                    <Border Margin="25 5" BorderBrush="Black" BorderThickness="0 1 0 0" Grid.Row="1">
+                                        <TextBlock conv:TextBlockExtensions.BindableInlines="{Binding SlotOptional, Converter={StaticResource AbilityTextToInlineCollectionConverter}, ConverterParameter=25}" 
+									           Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                                    </Border>
+                                </Grid>
+                            </common:ActivationButton>
+                            <common:ActivationButton Margin="3" IsLocked="False" CanBeClicked="False" 
+                                                     Visibility="{Binding HasCard, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <local:CardMini CardObject="{Binding Card}" Margin="5" Height="130" 
+							    			    ToolTipService.BetweenShowDelay="0"
+								    		    ToolTipService.InitialShowDelay="0">
+                                    <local:CardMini.ToolTip>
+                                        <local:Card CardObject="{Binding Card}"/>
+                                    </local:CardMini.ToolTip>
+                                </local:CardMini>
+                            </common:ActivationButton>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

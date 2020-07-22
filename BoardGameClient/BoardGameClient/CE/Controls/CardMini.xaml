@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="BoardGameClient.CE.Controls.CardMini"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:parts="clr-namespace:BoardGameClient.CE.Controls.CardParts"
+             xmlns:convce="clr-namespace:BoardGameClient.CE"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <convce:CEToImageConverter x:Key="CEToImageConverter"/>
+        <convce:CEPhotoToImageConverter x:Key="CEPhotoToImageConverter"/>
+        <convce:AbilityTypeToColorConverter x:Key="AbilityTypeToColorConverter"/>
+    </UserControl.Resources>
+    <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="2" x:Name="LayoutRoot">
+        <Border.Background>
+            <SolidColorBrush Color="{Binding CardObject.AbilityType, Converter={StaticResource AbilityTypeToColorConverter}}"/>
+        </Border.Background>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly" Margin="1">
+                <TextBlock TextAlignment="Center" FontSize="14" FontStretch="Condensed" FontFamily="Arial"
+                            Text="{Binding CardObject.Name, FallbackValue=CardNameTextSample}"/>
+            </Viewbox>
+            <TextBlock Text="{Binding CardObject.Attribute, FallbackValue=AttributeSample}" 
+                           HorizontalAlignment="Center" Grid.Row="1"
+                           VerticalAlignment="Center" FontFamily="Arial" FontSize="10" FontStyle="Italic"/>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="{Binding CardObject.Points, FallbackValue=8}"
+                                   FontFamily="Arial" FontSize="16" FontStretch="Condensed"  
+                                   VerticalAlignment="Center" Margin="5 0"/>
+                        <Image Source="/BoardGameClient;component/Resources/I.png"
+                           Height="14" Width="14" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Image Source="{Binding CardObject.CE, Converter={StaticResource CEToImageConverter}}" Height="16"
+                       Margin="10 5" HorizontalAlignment="Left" VerticalAlignment="Center" DockPanel.Dock="Top"/>
+                    <TextBlock Text="{Binding CardObject.CashRepresentation, FallbackValue=$$$}" Margin="2" TextWrapping="Wrap"
+                           FontSize="10" FontWeight="Bold" VerticalAlignment="Center" DockPanel.Dock="Top"/>
+                </DockPanel>
+                <Image Source="{Binding CardObject.PhotoPath, Converter={StaticResource CEPhotoToImageConverter}}"
+                       Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+            <DockPanel Grid.Row="3">
+                <TextBlock Text="{Binding CardObject.Year, FallbackValue=2000}" DockPanel.Dock="Right"
+                            FontFamily="Arial" FontSize="8"   
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2 0"/>
+                <Image Source="/BoardGameClient;component/Resources/DN.png"
+                        DockPanel.Dock="Right" Height="10" HorizontalAlignment="Right"/>
+            </DockPanel>
+        </Grid>
+    </Border>
+</UserControl>

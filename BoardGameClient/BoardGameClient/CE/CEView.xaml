@@ -4,11 +4,89 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BoardGameClient.CE"
+        xmlns:conv="clr-namespace:BoardGameClient"
+        xmlns:common="clr-namespace:BoardGameClient.Common"
         mc:Ignorable="d" Title="Classificação Etária"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False" WindowStyle="ToolWindow"
-        Height="900" Width="1440">
+        xmlns:parts="clr-namespace:BoardGameClient.CE.Controls"
+        Height="1000" Width="1900">
+    <Window.Resources>
+        <local:StateNameToVisibilityConverter x:Key="StateNameToVisibilityConverter"/>
+        <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="500"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="290"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="8 1" Text="Contratos" FontSize="14" VerticalAlignment="Bottom"/>
+                <ItemsControl ItemsSource="{Binding Contracts}" Margin="2" Grid.Row="1">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" Rows="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <common:ActivationButton Margin="2" IsLocked="False"
+                                                     CanBeClicked="True">
+                                <parts:CardMini CardObject="{Binding}" Margin="1"
+                                                MouseEnter="CardMini_MouseEnter"
+                                                MouseLeave="CardMini_MouseLeave"/>
+                            </common:ActivationButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+        <parts:PlayerZone Player="{Binding Player}" 
+                          StateName="{Binding StateName}"
+                          CurrentOptions="{Binding CurrentOptions}"
+                          CanUpgradeChampion="{Binding CanUpgradeChampion}"
+                          Grid.RowSpan="2" Grid.Column="1"
+                          MouseOverCard="PlayerZone_MouseOverCard"
+                          MouseOffCard="PlayerZone_MouseOutOfCard"/>
+        <Grid Grid.Column="2" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="400"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="280"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <parts:Card CardObject="{Binding SelectedCard}" 
+                            Visibility="{Binding SelectedCard, Converter={StaticResource NullToVisibilityConverter}}"/>
+                <parts:BonusCard BonusCardObject="{Binding SelectedBonusCard}"
+                                 Visibility="{Binding SelectedBonusCard, Converter={StaticResource NullToVisibilityConverter}}"/>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Margin="5" Text="Talentos do Palco" FontSize="14" VerticalAlignment="Bottom"/>
+                    <parts:Stage CurrentStage="{Binding CurrentStage}"/>
+                </StackPanel>
+            </Grid>
+            <parts:ChooseResources Visibility="{Binding StateName, Converter={StaticResource StateNameToVisibilityConverter}, ConverterParameter=ChooseResources}"
+                                   CardList="{Binding CardList}" BonusCardList="{Binding BonusCardList}" 
+                                   ResourcesTaken="ChooseResources_ResourcesTaken" Grid.Row="1"
+                                   MouseOverCard="PlayerZone_MouseOverCard"
+                                   MouseOffCard="PlayerZone_MouseOutOfCard"/>
+        </Grid>
     </Grid>
 </Window>

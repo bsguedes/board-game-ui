@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="BoardGameClient.CE.Controls.BonusCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BoardGameClient"
+             xmlns:convce="clr-namespace:BoardGameClient.CE"
+             mc:Ignorable="d" Height="400" Width="280">
+    <UserControl.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <convce:AbilityTextToInlineCollectionConverter x:Key="AbilityTextToInlineCollectionConverter"/>
+    </UserControl.Resources>
+    <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="2" x:Name="LayoutRoot"
+            Background="#FFEEEEEE">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="120"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Margin="25 25 25 10" Background="LightBlue">
+                <TextBlock TextAlignment="Center" FontSize="22" FontStretch="Condensed" FontFamily="Arial"
+                           TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Text="{Binding BonusCardObject.Name, FallbackValue=BonusCardName}"/>
+            </Border>
+            <Grid Grid.Row="1" Margin="25">
+                <Grid Visibility="{Binding BonusCardObject.IsRangeMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding BonusCardObject.ScoreRange1, FallbackValue=3}"
+                               FontFamily="Arial" FontSize="24" FontStretch="Condensed"  
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Margin="5 0" Grid.Column="0"/>
+                    <Image Source="/BoardGameClient;component/Resources/I.png" 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Grid.Column="1" Height="22" Width="22" Margin="3"/>
+                    <TextBlock Text="{Binding BonusCardObject.ScoreRange2, FallbackValue=8}"
+                               FontFamily="Arial" FontSize="24" FontStretch="Condensed"  
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Margin="5 0" Grid.Column="2"/>
+                    <Image Source="/BoardGameClient;component/Resources/I.png" 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Grid.Column="3" Height="22" Width="22" Margin="3"/>
+                    <TextBlock Text="{Binding BonusCardObject.Range1, StringFormat={}{0} atrações, FallbackValue=8-9}"
+                               Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="13" FontFamily="Arial"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding BonusCardObject.Range2, StringFormat={}{0} atrações, FallbackValue=8-9}"
+                               Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" FontSize="13" FontFamily="Arial"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+                <Grid Visibility="{Binding BonusCardObject.IsCountMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding BonusCardObject.ScoreRangeCard, FallbackValue=3}"
+                               FontFamily="Arial" FontSize="24" FontStretch="Condensed"  
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Margin="5 0" Grid.Column="0"/>
+                    <Image Source="/BoardGameClient;component/Resources/I.png" 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Grid.Column="1" Height="22" Width="22" Margin="3"/>
+                    <TextBlock Text="por atração"
+                               Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="13" FontFamily="Arial"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+            <TextBlock convce:TextBlockExtensions.BindableInlines="{Binding BonusCardObject.Criterion, Converter={StaticResource AbilityTextToInlineCollectionConverter}}" 
+                   FontSize="16" FontFamily="Arial" Margin="35 20" VerticalAlignment="Top"
+                   HorizontalAlignment="Center"
+                   Grid.Row="2" TextAlignment="Center" TextWrapping="Wrap"/>
+       </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,16 @@
+﻿<Window x:Class="BoardGameClient.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:common="clr-namespace:BoardGameClient.Common"
+        mc:Ignorable="d"
+        Title="TestWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <common:ActivationButton Content="Click me" IsEnabled="False" IsLocked="True" Width="80" Margin="5" Height="80" Click="ActivationButton_Click"/>
+            <common:ActivationButton Content="Click me" IsEnabled="False" IsLocked="False" Width="80" Margin="5" Height="80" Click="ActivationButton_Click_1"/>
+            <common:ActivationButton Content="Click me" IsEnabled="True" IsLocked="False" Width="80" Margin="5" Height="80" Click="ActivationButton_Click_2"/>
+        </StackPanel>
+    </Grid>
+</Window>

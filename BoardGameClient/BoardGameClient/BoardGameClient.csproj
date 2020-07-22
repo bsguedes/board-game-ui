@@ -83,6 +83,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -95,6 +96,9 @@
     </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.4.7.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.7.2\lib\net461\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -120,6 +124,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CE\Controls\BonusCardMini.xaml.cs">
+      <DependentUpon>BonusCardMini.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\BonusCard.xaml.cs">
+      <DependentUpon>BonusCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\CardMedium.xaml.cs">
+      <DependentUpon>CardMedium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\CardMini.xaml.cs">
+      <DependentUpon>CardMini.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\CardParts\AbilityBox.xaml.cs">
+      <DependentUpon>AbilityBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\CardParts\Cost.xaml.cs">
+      <DependentUpon>Cost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CE\CEGame.cs" />
     <Compile Include="CE\CEOptionDescriptor.cs" />
     <Compile Include="CE\CEStateDescriptor.cs" />
@@ -127,9 +149,42 @@
       <DependentUpon>CEView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CE\CEViewModel.cs" />
+    <Compile Include="CE\Controls\Card.xaml.cs">
+      <DependentUpon>Card.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\ChooseResources.xaml.cs">
+      <DependentUpon>ChooseResources.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\Hand.xaml.cs">
+      <DependentUpon>Hand.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\PlayerZone.xaml.cs">
+      <DependentUpon>PlayerZone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\ProgrammingRow.xaml.cs">
+      <DependentUpon>ProgrammingRow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\Stage.xaml.cs">
+      <DependentUpon>Stage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\TopBar.xaml.cs">
+      <DependentUpon>TopBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Converters.cs" />
+    <Compile Include="CE\Model\CEVersionData.cs" />
     <Compile Include="CE\Options\CEOptions.cs" />
     <Compile Include="CE\Options\CEOptionsView.xaml.cs">
       <DependentUpon>CEOptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\ViewModels\ChooseResourcesViewModel.cs" />
+    <Compile Include="CE\ViewModels\PlayerZoneModel.cs" />
+    <Compile Include="CE\ViewModels\ProgrammingRowViewModel.cs" />
+    <Compile Include="CE\ViewModels\StageViewModel.cs" />
+    <Compile Include="Common\ActivationToggleButton.xaml.cs">
+      <DependentUpon>ActivationToggleButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ActivationButton.xaml.cs">
+      <DependentUpon>ActivationButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Game.cs" />
     <Compile Include="Common\Helpers.cs" />
@@ -139,6 +194,9 @@
       <DependentUpon>LobbyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="StateDescriptor.cs" />
+    <Compile Include="TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TicTacToe\Options\TicTacToeOptions.cs" />
     <Compile Include="TicTacToe\Options\TicTacToeOptionsView.xaml.cs">
       <DependentUpon>TicTacToeOptionsView.xaml</DependentUpon>
@@ -150,13 +208,77 @@
     </Compile>
     <Compile Include="TicTacToe\TicTacToeViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Page Include="CE\CEResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\BonusCardMini.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CE\Controls\BonusCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CE\Controls\CardMedium.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CE\Controls\CardMini.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CE\Controls\CardParts\AbilityBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\CardParts\Cost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CE\CEView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\Card.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\ChooseResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\Hand.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\PlayerZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\ProgrammingRow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\Stage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\TopBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CE\Options\CEOptionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\ActivationToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\ActivationButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Lobby\LobbyWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -178,6 +300,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TicTacToe\Options\TicTacToeOptionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -193,19 +319,19 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\CEResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>CEResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Properties\CEResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>CEResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="BoardGameClient_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -238,6 +364,645 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\L.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\v1.json" />
+    <Resource Include="Resources\X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\X1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\X2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\X3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\X4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\X5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\C.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\I.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A1A2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A1A2A3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A1A3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A2A3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\170zecacamargo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\1agrandefamila.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\2apracaenossa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\3adenonis.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\3adrianegalisteu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\4alborghetti.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\5amauryjr.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\6anahickmann.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\7anamariabraga.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\8andremarques.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\9angelica.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\10arnaldo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\11away.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\12bambam.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\12betocarrero.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\13boca.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\14boris.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\15bruna.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\16cabecao.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\17carla.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\18carlosalberto.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\19carolina.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\20casagrande.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\21casseta.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\22castelo.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\23celso.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\24chacrinha.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\25chaves.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\26chico.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\27choque.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\28cid.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\29claudialeitte.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\30claudiaraia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\31cleber.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\32cruj.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\32dado.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\33cicarelli.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\34danilo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\35datena.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\36dercy.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\37detonator.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\38dudu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\39edir.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\40edson.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\41eliana.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\43ellenpablo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\44jacquin.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\45eterodolfo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\46evaristo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\47fabio.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\48fabiojr.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\49fabioporchat.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\50fatima.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\51tiazinhafeiticeira.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\52fernanda.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\53fernandamontenegro.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\54fernando.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\55fiuk.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\56galvao.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\57gil.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\58gilberto.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\59gloria.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\60gloriapires.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\61gretchen.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\62gugu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\63hebe.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\64helen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\65heloisa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\66fogaca.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\67her.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\68ines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\69ingrid.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\70ivete.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\71jaqueline.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\72jimmy.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\73jo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\73joaokleber.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\74jose.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\75josewilker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\76joselito.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\77juarez.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\78kira.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\79lazaro.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\80leao.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\81lima.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\82liminha.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\82lobao.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\83lombardi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\84louro.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\85luciana.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\86luciano.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\87luis.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\88lulu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\89maisa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\90adnet.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\91marceloresende.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\92marcelotas.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\93marcia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\94marcio.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\95marco.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\96marcosmion.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\97marilia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\98miguel.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\99milton.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\100mionzinho.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\101misterm.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\101moises.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\102nazare.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\103nelson.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\104netinho.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\105neto.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\106ney.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\107trapalhoes.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\108otaviano.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\109otavio.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\110pdfabio.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\111pdmarcelo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\117palhacogozo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\118paola.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\119patricia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\120paulobonfa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\121pcsiqueira.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\122pedro_ebino.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\122pedrobial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\123pedrodelara.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\124penelope.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\125priscilla.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\126rafinha.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\127raquel.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\128ratinho.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\129raulgil.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\130reginacase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\131renatafan.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\132ricardoboechat.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\134justus.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\135rodrigofaro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\136rodrigohilbert.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\137roger.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\138ronaldgolias.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\139ronaldo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\140roque.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\141rrsoares.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\142ruievani.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\143sabrinasato.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\144saidebaixo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\145sandraannenberg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\146sandyjunior.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\147serginho.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\148chapelin.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\150malandro.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\151silas.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\152silvioluiz.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\153sonia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\154supla.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\155suzanavieira.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\156tadeu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\157tata.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\158tayrone.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\159tiagoleifert.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\160tiririca.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\160tomcavalcante.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\161tony.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\162vera.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\163wagner.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\164walter.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\165bonner.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\166waack.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\167xaropinho.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\168yudi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\169zedocaixao.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\band.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\globo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\mtv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\record.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\sbt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ch_faustao.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ch_ana.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ch_gordo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ch_silvio.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ch04xuxa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A1cost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A2cost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\A3cost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ra.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DX5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DX1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DX2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DX3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DX4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DX4X5.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -37,6 +37,7 @@ namespace BoardGameClient.CE
         public int CardCount { get; set; }
         public int TalentCount { get; set; }
         public int Optional { get; set; }
+        public int Position { get; set; }
         public CEPlayableCardOption PlayableCard { get; set; }
     }
 

@@ -36,7 +36,7 @@ namespace BoardGameConnector
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return default(T);
+                return default;
             }
         }
 
@@ -53,7 +53,7 @@ namespace BoardGameConnector
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return default(T);
+                return default;
             }
         }    
 

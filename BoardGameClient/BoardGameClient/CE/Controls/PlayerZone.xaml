@@ -1,0 +1,144 @@
+﻿<UserControl x:Class="BoardGameClient.CE.Controls.PlayerZone"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:parts="clr-namespace:BoardGameClient.CE.Controls"
+             xmlns:cp="clr-namespace:BoardGameClient.CE.Controls.CardParts"
+             xmlns:conv="clr-namespace:BoardGameClient"
+             xmlns:common="clr-namespace:BoardGameClient.Common"
+             xmlns:convce="clr-namespace:BoardGameClient.CE"          
+             Height="950" Width="1080">
+    <UserControl.Resources>
+        <conv:ImageConverter x:Key="ImageConverter"/>
+        <convce:AbilityTextToInlineCollectionConverter x:Key="AbilityTextToInlineCollectionConverter"/>
+        <convce:ChampionToImageConverter x:Key="ChampionToImageConverter"/>
+        <convce:ChampionLevelToLockedConverter x:Key="ChampionLevelToLockedConverter"/>
+        <convce:ActionUpgradeToEnabledConverter x:Key="ActionUpgradeToEnabledConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <parts:TopBar Grid.Row="0" Grid.Column="1" 
+                      ChannelName="{Binding Player.ChannelName}" 
+                      ChampionName="{Binding Player.Champion}"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="155"/>
+                <RowDefinition Height="155"/>
+                <RowDefinition Height="155"/>
+                <RowDefinition Height="290"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="980"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Player.Champion, Converter={StaticResource ChampionToImageConverter}}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" Height="110"/>
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding Player.ChampionLevels}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4" Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <common:ActivationButton Width="240">
+                                <common:ActivationButton.CanBeClicked>
+                                    <MultiBinding Converter="{StaticResource ActionUpgradeToEnabledConverter}">
+                                        <Binding Path="CanUpgradeChampion" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}"/>
+                                        <Binding Path="Player.Board.ChampionLevel" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}"/>
+                                        <Binding Path="Level"/>
+                                    </MultiBinding>
+                                </common:ActivationButton.CanBeClicked>
+                                <common:ActivationButton.IsLocked>
+                                    <MultiBinding Converter="{StaticResource ChampionLevelToLockedConverter}">
+                                        <Binding Path="Player.Board.ChampionLevel" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}"/>
+                                        <Binding Path="Level"/>
+                                    </MultiBinding>
+                                </common:ActivationButton.IsLocked>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding Level}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"
+                                               Margin="2" DockPanel.Dock="Left"/>
+                                        <Image Source="/BoardGameClient;component/Resources/I.png" VerticalAlignment="Center"
+                                           Height="17" Width="17" DockPanel.Dock="Left"/>
+                                        <TextBlock Text="{Binding AbilityName}" FontSize="14" FontWeight="Bold" 
+                                               VerticalAlignment="Center" Margin="8 2" DockPanel.Dock="Left"/>
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="1">
+                                        <TextBlock Text="Custo: " DockPanel.Dock="Left" Margin="5 2"
+                                               FontSize="12" FontFamily="Arial" VerticalAlignment="Center"/>
+                                        <TextBlock convce:TextBlockExtensions.BindableInlines="{Binding CostString, Converter={StaticResource AbilityTextToInlineCollectionConverter}}" 
+                                            FontSize="12" FontFamily="Arial" Margin="5 2" VerticalAlignment="Center" Grid.Row="1"/>
+                                    </DockPanel>
+                                    <cp:AbilityBox Grid.Row="2" Margin="2"
+                                               AbilityType="{Binding AbilityType}" 
+                                               AbilityText="{Binding AbilityText}"/>
+                                </Grid>
+                            </common:ActivationButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="$" Grid.Column="2" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="$" Grid.Column="3" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="$ $" Grid.Column="4" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="$ $" Grid.Column="5" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+            <parts:ProgrammingRow Cards="{Binding Player.Board.TopRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}" 
+                                  StateName="{Binding StateName}"
+                                  CurrentOptions="{Binding CurrentOptions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  RowResource="Talents" Grid.Row="2"/>
+            <parts:ProgrammingRow Cards="{Binding Player.Board.MidRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}" 
+                                  StateName="{Binding StateName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  CurrentOptions="{Binding CurrentOptions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  RowResource="Cash" Grid.Row="3"/>
+            <parts:ProgrammingRow Cards="{Binding Player.Board.BotRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}" 
+                                  StateName="{Binding StateName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  CurrentOptions="{Binding CurrentOptions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  RowResource="Cards" Grid.Row="4"/>
+            <Grid Grid.Row="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="180"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="3 1" Text="Mão" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="3 1" Text="Cartas Bônus" Grid.Column="1" FontSize="14" VerticalAlignment="Bottom"/>
+                <parts:Hand Grid.Row="1" Margin="0 2" Grid.ColumnSpan="2"
+                            CardList="{Binding Player.PlayerCards}" 
+                            BonusCardList="{Binding Player.PlayerBonusCards}"
+                            StateName="{Binding StateName}"
+                            CurrentOptions="{Binding CurrentOptions}"
+                            MouseOverCard="Hand_MouseOverCard"
+                            MouseOffCard="Hand_MouseOffCard"/>
+            </Grid>
+            
+        </Grid>
+    </Grid>
+
+</UserControl>

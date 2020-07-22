@@ -1,5 +1,8 @@
-﻿using System;
+﻿using BoardGameClient.CE.Controls;
+using BoardGameClient.CE.Model;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +35,11 @@ namespace BoardGameClient.CE
         public int[] BonusCards { get; set; }
         public int Round { get; set; }
         public int Turn { get; set; }
+
+        public ObservableCollection<Model.CEChampion> ChampionLevels => new ObservableCollection<Model.CEChampion>(CEViewModel.GameData.Champions.Where(x => x.Champion == Champion));
+        public string ChannelName => CEViewModel.GameData.Champions.FirstOrDefault(x => x.Champion == Champion)?.Channel;
+        public CECard[] PlayerCards => Hand?.Select(x => CEViewModel.GameData.Cards.First(c => c.ID == x)).ToArray() ?? new CECard[] { };
+        public CEBonusCard[] PlayerBonusCards => BonusCards?.Select(x => CEViewModel.GameData.Bonus.First(c => c.ID == x)).ToArray() ?? new CEBonusCard[] { };
     }
 
     public class CEStageDescriptor
@@ -39,6 +47,8 @@ namespace BoardGameClient.CE
         public string[] OnStage { get; set; }
         public int OffStage { get; set; }
         public bool CanReroll { get; set; }
+
+        public ObservableCollection<CEDie> Dice => new ObservableCollection<CEDie>(OnStage?.Select(x => new CEDie(x)) ?? new List<CEDie>());
     }
 
     public class CEOpponentDescriptor
@@ -58,7 +68,7 @@ namespace BoardGameClient.CE
         public int ChampionLevel { get; set; }
         public CEBoardSlotDescriptor[] TopRow { get; set; }
         public CEBoardSlotDescriptor[] MidRow { get; set; }
-        public CEBoardSlotDescriptor[] BotRow { get; set; }
+        public CEBoardSlotDescriptor[] BotRow { get; set; }        
     }
 
     public class CEBoardSlotDescriptor
@@ -67,6 +77,8 @@ namespace BoardGameClient.CE
         public int Cached { get; set; }
         public int Cash { get; set; }
         public CETalentDescriptor Talents { get; set; }
+
+        public Model.CECard CardObject => CEViewModel.GameData.Cards.FirstOrDefault(x => x.ID == Card);
     }
 
     public class CETalentDescriptor
@@ -76,6 +88,18 @@ namespace BoardGameClient.CE
         public int X3 { get; set; }
         public int X4 { get; set; }
         public int X5 { get; set; }
+    }
+
+    public class CEDie
+    {
+        public string Face { get; set; }
+        public string[] Options { get; set; }
+
+        public CEDie(string face)
+        {
+            Face = face;
+            Options = face.Split('/').Select(x => $"{{{x}}}").ToArray();
+        }
     }
 
 }

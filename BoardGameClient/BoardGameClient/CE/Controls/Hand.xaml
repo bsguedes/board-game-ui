@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="BoardGameClient.CE.Controls.Hand"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:parts="clr-namespace:BoardGameClient.CE.Controls"
+             xmlns:common="clr-namespace:BoardGameClient.Common"
+             xmlns:conv="clr-namespace:BoardGameClient.CE"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:CardInHandCanBeClickedConverter x:Key="CardInHandCanBeClickedConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="180"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Grid.Column="0" VerticalAlignment="Top" Height="270">
+            <ItemsControl ItemsSource="{Binding CardList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:Hand}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <common:ActivationButton Margin="0" IsLocked="False" VerticalAlignment="Top">
+                            <common:ActivationButton.CanBeClicked>
+                                <MultiBinding Converter="{StaticResource CardInHandCanBeClickedConverter}" ConverterParameter="PlayerTurn">
+                                    <Binding Path="StateName" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=parts:Hand}"/>
+                                    <Binding Path="CurrentOptions" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=parts:Hand}"/>
+                                    <Binding />
+                                </MultiBinding>
+                            </common:ActivationButton.CanBeClicked>
+                            <parts:CardMedium CardObject="{Binding}" Margin="1" Height="180" Width="120"
+                                              MouseEnter="CardMedium_MouseEnter"
+                                              MouseLeave="CardMedium_MouseLeave"/>
+                        </common:ActivationButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Column="1" VerticalAlignment="Top" Height="270" HorizontalAlignment="Left">
+            <ItemsControl ItemsSource="{Binding BonusCardList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:Hand}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <common:ActivationButton Margin="0" IsLocked="False" CanBeClicked="False">
+                            <parts:BonusCardMini BonusCardObject="{Binding}" Margin="1" Height="115" Width="140"
+                                                 MouseEnter="CardMedium_MouseEnter"
+                                                 MouseLeave="CardMedium_MouseLeave"/>
+                        </common:ActivationButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
