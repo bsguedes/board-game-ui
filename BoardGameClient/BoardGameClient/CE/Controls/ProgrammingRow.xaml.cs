@@ -3,6 +3,7 @@ using BoardGameClient.CE.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static BoardGameClient.CE.CEView;
 
 namespace BoardGameClient.CE.Controls
 {
@@ -24,11 +26,22 @@ namespace BoardGameClient.CE.Controls
     {
         readonly ProgrammingRowViewModel _viewModel;
 
+        public delegate void ActionSelectedEventHandler(RowModel slot);
+        public event ActionSelectedEventHandler ActionSelected;
+
+        public delegate void RowSelectedEventHandler(RowResource row);
+        public event RowSelectedEventHandler RowSelected;
+
+        public delegate void MoneyAddedToCardEventHandler(CECard card);
+        public event MoneyAddedToCardEventHandler MoneyAddedToCard;
+
+        public event MouseOverCardHandler MouseOverCard;
+        public event MouseOutOfCardHandler MouseOffCard;
+
         public ProgrammingRow()
         {
             _viewModel = new ProgrammingRowViewModel();
             InitializeComponent();
-            // DataContext = _viewModel;
             FirstColumn.DataContext = this;
         }
 
@@ -54,8 +67,6 @@ namespace BoardGameClient.CE.Controls
             DependencyProperty.Register("RowResource", typeof(RowResource), typeof(ProgrammingRow), new PropertyMetadata(RowResource.Talents));
 
 
-
-
         public string StateName
         {
             get { return (string)GetValue(StateNameProperty); }
@@ -65,8 +76,6 @@ namespace BoardGameClient.CE.Controls
         // Using a DependencyProperty as the backing store for StateName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StateNameProperty =
             DependencyProperty.Register("StateName", typeof(string), typeof(ProgrammingRow), new PropertyMetadata(string.Empty));
-
-
 
 
         public IEnumerable<CEOptionDescriptor> CurrentOptions
@@ -79,8 +88,37 @@ namespace BoardGameClient.CE.Controls
         public static readonly DependencyProperty CurrentOptionsProperty =
             DependencyProperty.Register("CurrentOptions", typeof(IEnumerable<CEOptionDescriptor>), typeof(ProgrammingRow), new PropertyMetadata(null));
 
+        private void ActivationButton_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic button = sender;
+            RowModel rowModel = button.Content.Tag;
+            ActionSelected?.Invoke(rowModel);
+        }
 
+        private void Row_Click(object sender, RoutedEventArgs e)
+        {
+            RowSelected?.Invoke(RowResource);
+        }
 
+        private void Card_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic button = sender;
+            RowModel rowModel = button.Content.Tag;
+            MoneyAddedToCard?.Invoke(rowModel.Card);
+        }
+
+        private void Card_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is CardMini card)
+            {
+                MouseOverCard?.Invoke(card.CardObject, null);
+            }
+        }
+
+        private void Card_MouseLeave(object sender, MouseEventArgs e)
+        {
+            MouseOffCard?.Invoke();
+        }
     }
 
     public enum RowResource
@@ -97,6 +135,13 @@ namespace BoardGameClient.CE.Controls
             { RowResource.Cards, "RecruitAttractions" },
             { RowResource.Cash, "ShowAds" },
             { RowResource.Talents, "TalentHunt" },
+        };
+
+        public static Dictionary<RowResource, string> RowResourceLevel = new Dictionary<RowResource, string>()
+        {
+            { RowResource.Cards, "Bot" },
+            { RowResource.Cash, "Mid" },
+            { RowResource.Talents, "Top" },
         };
     }
 }

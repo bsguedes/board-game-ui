@@ -28,7 +28,8 @@ namespace BoardGameClient.CE.Controls
             LayoutRoot.DataContext = this;
         }
 
-
+        public delegate void CardSelectedFromHandEventHandler(CECard card);
+        public event CardSelectedFromHandEventHandler CardSelected;
 
         public string StateName
         {
@@ -75,6 +76,17 @@ namespace BoardGameClient.CE.Controls
         public event MouseOverCardHandler MouseOverCard;
         public event MouseOutOfCardHandler MouseOffCard;
 
+        public CETalentDescriptor Talents
+        {
+            get { return (CETalentDescriptor)GetValue(TalentsProperty); }
+            set { SetValue(TalentsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Talents.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TalentsProperty =
+            DependencyProperty.Register("Talents", typeof(CETalentDescriptor), typeof(Hand), new PropertyMetadata(null));
+
+
         private void CardMedium_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is CardMedium card)
@@ -90,6 +102,13 @@ namespace BoardGameClient.CE.Controls
         private void CardMedium_MouseLeave(object sender, MouseEventArgs e)
         {
             MouseOffCard?.Invoke();
+        }
+
+        private void SelectCard_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic button = sender;
+            CECard card = button.Content.CardObject;
+            CardSelected?.Invoke(card);
         }
     }
 }

@@ -20,6 +20,32 @@ namespace BoardGameClient
         }
     }
 
+    public class IntegerToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is int @int && @int != 0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IntegerToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is int @int && @int != 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -30,6 +56,21 @@ namespace BoardGameClient
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return (Visibility)value == Visibility.Visible;
+        }
+    }
+
+    public class StringToBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string input = (string)value;
+            string comp = (string)parameter;
+            return input == comp;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -88,7 +129,7 @@ namespace BoardGameClient
         
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || (value is string && string.IsNullOrEmpty((string)value))) { return null; }
+            if (value == null || (value is string @string && string.IsNullOrEmpty(@string))) { return null; }
             T code = (T)value;
             Image image = ImageConversion(code);            
             var bitmap = new System.Windows.Media.Imaging.BitmapImage();

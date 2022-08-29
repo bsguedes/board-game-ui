@@ -13,6 +13,7 @@ using BoardGameClient.CE.Model;
 using System.Linq;
 using BoardGameClient.CE.ViewModels;
 using BoardGameClient.CE.Controls;
+using System.Configuration;
 
 namespace BoardGameClient.CE
 {    
@@ -148,7 +149,23 @@ namespace BoardGameClient.CE
             throw new NotImplementedException();
         }
     }
-    
+
+    public class ExistsOptionToBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            IEnumerable<CEOptionDescriptor> options = (IEnumerable<CEOptionDescriptor>)value;
+            string optionName = (string)parameter;            
+            return !(options == null || optionName == null) && options.Any(x => x.Action == optionName);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
     public class ChampionToImageConverter : BaseImageConverter<string>
     {
         public override Bitmap ImageConversion(string value)
@@ -214,7 +231,9 @@ namespace BoardGameClient.CE
                 case "{I}":
                     return Properties.CEResources.I;
                 case "{ra}":
-                    return Properties.CEResources.ra;                
+                    return Properties.CEResources.ra;
+                case "{S}":
+                    return Properties.CEResources.S;
                 default:
                     return null;
             }
@@ -279,8 +298,9 @@ namespace BoardGameClient.CE
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string stateName = (string)parameter;
+            string[] states = stateName.Split('|');
             string currentState = (string)value;
-            return stateName == currentState ? Visibility.Visible : Visibility.Collapsed;
+            return states.Contains(currentState) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -295,7 +315,7 @@ namespace BoardGameClient.CE
         {
             string stateName = (string)values[0];
             IEnumerable<CEOptionDescriptor> options = (IEnumerable<CEOptionDescriptor>)values[1];
-            if (stateName == null || options == null || stateName != (string)parameter)
+            if (stateName == null || options == null || !((string)parameter).Split('|').Contains(stateName))
             {
                 return false;
             }
@@ -315,8 +335,22 @@ namespace BoardGameClient.CE
         protected override bool ConvertBase(object[] values, string parameter, string stateName, IEnumerable<CEOptionDescriptor> options)
         {
             CECard card = (CECard)values[2];
-            CEOptionDescriptor option = options.FirstOrDefault(x => x.Action == "PlayCard" && x.PlayableCard.ID == card.ID);
+            CEOptionDescriptor option = options.FirstOrDefault(x => (x.Action == "PlayCard" && x.PlayableCard.ID == card.ID) || (x.Action == "DiscardCard" && x.Card == card.ID));
             return option != null;
+        }
+    }
+
+    public class CardOnBoardCanBeClickedConverter : BaseCanBeClickedConverter
+    {
+        protected override bool ConvertBase(object[] values, string parameter, string stateName, IEnumerable<CEOptionDescriptor> options)
+        {
+            CECard card = (CECard)values[2];
+            if (card != null)
+            {
+                CEOptionDescriptor option = options.FirstOrDefault(x => (x.Action == "PlaceMoney" && x.Card == card.ID) || (x.Action == "DiscardCash" && x.CashOrigin == card.ID));
+                return option != null;
+            }
+            return false;
         }
     }
 
@@ -327,6 +361,16 @@ namespace BoardGameClient.CE
             RowResource rowResource = (RowResource)values[2];
             int position = (int)values[3];
             CEOptionDescriptor option = options.FirstOrDefault(x => x.Action == ProgrammingRowCommon.RowResourceAction[rowResource] && x.Position == position);
+            return option != null;
+        }
+    }
+
+    public class ProgrammingRowCanBeClickedConverter : BaseCanBeClickedConverter
+    {
+        protected override bool ConvertBase(object[] values, string parameter, string stateName, IEnumerable<CEOptionDescriptor> options)
+        {
+            RowResource rowResource = (RowResource)values[2];
+            CEOptionDescriptor option = options.FirstOrDefault(x => x.Action == "ChooseRow" && x.Row == ProgrammingRowCommon.RowResourceLevel[rowResource]);
             return option != null;
         }
     }
@@ -344,7 +388,7 @@ namespace BoardGameClient.CE
                 {
                     if (slots[i].Card != null)
                     {
-                        rows[i] = new RowModel(i, slots[i].CardObject);
+                        rows[i] = new RowModel(i, slots[i]);
                     }
                     else
                     {
@@ -376,40 +420,65 @@ namespace BoardGameClient.CE
         }
     }
 
+    public class PayTalentsToInlineCollectionConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            CEPayTalentCostDescriptor[] cost = (CEPayTalentCostDescriptor[])value;
+            if (cost != null)
+            {
+                return new AbilityTextToInlineCollectionConverter().Convert(CECard.AsCostString(cost), targetType, 22, culture);
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class AbilityTextToInlineCollectionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string ability = ((string)value).Replace("}.", "} .").Replace("},", "} ,").Replace("}{", "} {");
-            string[] tokens = ability.Split(' ');
-            int height = parameter == null ? 15 : int.Parse(parameter.ToString());
-
-            List<string> currentRun = new List<string>();
-            List<Inline> col = new List<Inline>();
-            for (int i = 0; i < tokens.Length; i++)
+            if (value != null)
             {
-                if (tokens[i].Contains("{"))
+                string ability = ((string)value).Replace("}.", "} .").Replace("},", "} ,").Replace("}{", "} {");
+                string[] tokens = ability.Split(' ');
+                int height = parameter == null ? 15 : int.Parse(parameter.ToString());
+
+                List<string> currentRun = new List<string>();
+                List<Inline> col = new List<Inline>();
+                for (int i = 0; i < tokens.Length; i++)
                 {
-                    col.Add(new InlineUIContainer(new System.Windows.Controls.Image { 
-                        Source = (BitmapImage) new BracketTextToTokenConverter().Convert(tokens[i], typeof(System.Drawing.Image), null, null),
-                        Height = height
-                    }));
-                    col.Add(new Run(" "));
+                    if (tokens[i].Contains("{"))
+                    {
+                        col.Add(new InlineUIContainer(new System.Windows.Controls.Image
+                        {
+                            Source = (BitmapImage)new BracketTextToTokenConverter().Convert(tokens[i], typeof(System.Drawing.Image), null, null),
+                            Height = height
+                        }));
+                        col.Add(new Run(" "));
+                    }
+                    else if ((i == tokens.Length - 1) || tokens[i + 1].Contains("{"))
+                    {
+                        currentRun.Add(tokens[i]);
+                        Run run = new Run(string.Join(" ", currentRun) + " ")
+                        {
+                            BaselineAlignment = BaselineAlignment.Center
+                        };
+                        col.Add(run);
+                        currentRun = new List<string>();
+                    }
+                    else
+                    {
+                        currentRun.Add(tokens[i]);
+                    }
                 }
-                else if ((i == tokens.Length - 1) || tokens[i + 1].Contains("{"))
-                {
-                    currentRun.Add(tokens[i]);
-                    Run run = new Run(string.Join(" ", currentRun) + " ");
-                    run.BaselineAlignment = BaselineAlignment.Center;
-                    col.Add(run);
-                    currentRun = new List<string>();
-                }
-                else
-                {
-                    currentRun.Add(tokens[i]);
-                }
+                return col;
             }
-            return col;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

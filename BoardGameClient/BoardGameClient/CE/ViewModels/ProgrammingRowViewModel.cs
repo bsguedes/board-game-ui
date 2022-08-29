@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
+using System.Windows.Media.Imaging;
 
 namespace BoardGameClient.CE.ViewModels
 {
@@ -22,12 +23,14 @@ namespace BoardGameClient.CE.ViewModels
         public string SlotReward { get; set; }
         public string SlotOptional { get; set; }
         public RowResource Resource { get; set; }
-        public bool HasCard => Card != null;       
+        public bool HasCard => Card != null;
+        public CEBoardSlotDescriptor Slot { get; set; }
 
-        public RowModel(int i, CECard card)
+        public RowModel(int i, CEBoardSlotDescriptor slot)
         {
             Position = i;
-            Card = card;
+            Card = slot.CardObject;
+            Slot = slot;
         }
 
         public RowModel(int i, RowResource resource)

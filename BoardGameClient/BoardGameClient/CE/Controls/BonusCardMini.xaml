@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Margin="3" Background="LightBlue">
                 <Viewbox Stretch="Uniform" StretchDirection="DownOnly" Margin="1">
-                    <TextBlock TextAlignment="Center" FontSize="14" FontStretch="Condensed" FontFamily="Arial"
+                    <TextBlock TextAlignment="Center" FontSize="11" FontStretch="Condensed" FontFamily="Arial"
                                TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"
                                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
                                Text="{Binding BonusCardObject.Name, FallbackValue=BonusCardName}"/>
@@ -81,7 +81,7 @@
                 </Grid>
             </Grid>
             <TextBlock convce:TextBlockExtensions.BindableInlines="{Binding BonusCardObject.Criterion, Converter={StaticResource AbilityTextToInlineCollectionConverter}}" 
-                   FontSize="10" FontFamily="Arial" Margin="5" VerticalAlignment="Center"
+                   FontSize="9" FontFamily="Arial" Margin="5" VerticalAlignment="Center"
                    HorizontalAlignment="Center" Grid.Row="2" TextAlignment="Center" TextWrapping="Wrap"/>
        </Grid>
     </Border>

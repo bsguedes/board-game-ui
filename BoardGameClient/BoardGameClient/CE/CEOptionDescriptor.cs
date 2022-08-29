@@ -39,13 +39,16 @@ namespace BoardGameClient.CE
         public int Optional { get; set; }
         public int Position { get; set; }
         public CEPlayableCardOption PlayableCard { get; set; }
+
+        /* CEChooseRowToPlayCard */
+        public string Row { get; set; }
     }
 
     public class CEPlayableCardOption
     {
         public int ID { get; set; }
-        public string Row { get; set; }
-        public int CashCost { get; set; }
+        public string[] ValidRows { get; set; }
+        public int[] CashCost { get; set; }
         public string[] TalentCost { get; set; }
     }
 }

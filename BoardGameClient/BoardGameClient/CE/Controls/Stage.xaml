@@ -40,8 +40,9 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <common:ActivationButton Margin="2" IsLocked="False" CanBeClicked="False" HideWhenUnclickable="False">
-                                        <TextBlock convce:TextBlockExtensions.BindableInlines="{Binding Converter={StaticResource AbilityTextToInlineCollectionConverter}, ConverterParameter=24}" 
+                                    <common:ActivationButton Margin="2" CanBeClicked="{Binding CanTakeDice, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:Stage}}" 
+                                                             HideWhenUnclickable="False" Click="Die_Taken" Tag="{Binding}">
+                                        <TextBlock convce:TextBlockExtensions.BindableInlines="{Binding TextualTalent, Converter={StaticResource AbilityTextToInlineCollectionConverter}, ConverterParameter=24}" 
 									            Margin="5 2 2 2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
                                     </common:ActivationButton>
                                 </DataTemplate>
@@ -58,8 +59,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding CurrentStage.OffStage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:Stage}, StringFormat=Fora do Palco: {0}}"
                        FontFamily="Arial" FontSize="12" Margin="2" VerticalAlignment="Center"/>
-            <common:ActivationButton Margin="2" IsLocked="False" CanBeClicked="True" HideWhenUnclickable="False" 
-                                     FontFamily="Arial" FontSize="13" Grid.Column="1">
+            <common:ActivationButton Margin="2" CanBeClicked="{Binding CanReroll, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:Stage}}" HideWhenUnclickable="True" 
+                                     FontFamily="Arial" FontSize="13" Grid.Column="1" Click="Reroll_Dice">
                 <TextBlock Text="Rerolar" HorizontalAlignment="Center"/>
             </common:ActivationButton>
         </Grid>

@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static BoardGameClient.CE.CEView;
+using static BoardGameClient.CE.Controls.Hand;
+using static BoardGameClient.CE.Controls.ProgrammingRow;
 
 namespace BoardGameClient.CE.Controls
 {
@@ -27,6 +29,10 @@ namespace BoardGameClient.CE.Controls
 
         public event MouseOverCardHandler MouseOverCard;
         public event MouseOutOfCardHandler MouseOffCard;
+        public event ActionSelectedEventHandler ActionSelected;
+        public event CardSelectedFromHandEventHandler CardSelected;
+        public event RowSelectedEventHandler RowSelected;
+        public event MoneyAddedToCardEventHandler MoneyAddedToCard;
 
         public CEPlayerDescriptor Player
         {
@@ -79,6 +85,26 @@ namespace BoardGameClient.CE.Controls
         private void Hand_MouseOffCard()
         {
             MouseOffCard?.Invoke();
+        }
+
+        private void ProgrammingRow_ActionSelected(RowModel slot)
+        {
+            ActionSelected?.Invoke(slot);
+        }
+
+        private void Hand_CardSelected(Model.CECard card)
+        {
+            CardSelected?.Invoke(card);
+        }
+
+        private void ProgrammingRow_RowSelected(RowResource row)
+        {
+            RowSelected?.Invoke(row);
+        }
+
+        private void ProgrammingRow_MoneyAddedToCard(Model.CECard card)
+        {
+            MoneyAddedToCard?.Invoke(card);            
         }
     }
 }

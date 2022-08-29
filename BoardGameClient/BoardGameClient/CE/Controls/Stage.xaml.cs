@@ -25,6 +25,9 @@ namespace BoardGameClient.CE.Controls
             InitializeComponent();
         }
 
+        public delegate void StageActionSelectedHandler(CEDieOption dieOption, bool reroll);
+        public event StageActionSelectedHandler StageActionSelected;
+
         public CEStageDescriptor CurrentStage
         {
             get { return (CEStageDescriptor)GetValue(CurrentStageProperty); }
@@ -34,6 +37,40 @@ namespace BoardGameClient.CE.Controls
         // Using a DependencyProperty as the backing store for CurrentStage.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentStageProperty =
             DependencyProperty.Register("CurrentStage", typeof(CEStageDescriptor), typeof(Stage), new PropertyMetadata(new CEStageDescriptor()));
+
+
+        public bool CanReroll
+        {
+            get { return (bool)GetValue(CanRerollProperty); }
+            set { SetValue(CanRerollProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CanReroll.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CanRerollProperty =
+            DependencyProperty.Register("CanReroll", typeof(bool), typeof(Stage), new PropertyMetadata(false));
+
+
+        public bool CanTakeDice
+        {
+            get { return (bool)GetValue(CanTakeDiceProperty); }
+            set { SetValue(CanTakeDiceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CanTakeDice.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CanTakeDiceProperty =
+            DependencyProperty.Register("CanTakeDice", typeof(bool), typeof(Stage), new PropertyMetadata(false));
+
+        private void Reroll_Dice(object sender, RoutedEventArgs e)
+        {
+            StageActionSelected?.Invoke(null, true);
+        }
+
+        private void Die_Taken(object sender, RoutedEventArgs e)
+        {
+            dynamic button = sender;
+            CEDieOption dieOption = button.Tag;
+            StageActionSelected?.Invoke(dieOption, false);
+        }
     }
 
 

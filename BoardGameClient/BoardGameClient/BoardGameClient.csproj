@@ -59,10 +59,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0A9FE347FD39C297A33ED8305DEC00A70FCB0B84</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E9953ED3F85EBB80BD079B968019E4D07F42092D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>BoardGameClient_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>BoardGameClient_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -118,6 +118,21 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -152,6 +167,12 @@
     <Compile Include="CE\Controls\Card.xaml.cs">
       <DependentUpon>Card.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CE\Controls\DiscardTalent.xaml.cs">
+      <DependentUpon>DiscardTalent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CE\Controls\PlayCardCost.xaml.cs">
+      <DependentUpon>PlayCardCost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CE\Controls\ChooseResources.xaml.cs">
       <DependentUpon>ChooseResources.xaml</DependentUpon>
     </Compile>
@@ -177,6 +198,7 @@
       <DependentUpon>CEOptionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CE\ViewModels\ChooseResourcesViewModel.cs" />
+    <Compile Include="CE\ViewModels\PlayCardCostViewModel.cs" />
     <Compile Include="CE\ViewModels\PlayerZoneModel.cs" />
     <Compile Include="CE\ViewModels\ProgrammingRowViewModel.cs" />
     <Compile Include="CE\ViewModels\StageViewModel.cs" />
@@ -243,6 +265,14 @@
     <Page Include="CE\Controls\Card.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CE\Controls\DiscardTalent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CE\Controls\PlayCardCost.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CE\Controls\ChooseResources.xaml">
       <SubType>Designer</SubType>
@@ -333,6 +363,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CEResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="BoardGameClient_1_TemporaryKey.pfx" />
     <None Include="BoardGameClient_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -1003,6 +1034,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DX4X5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\S.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

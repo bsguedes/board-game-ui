@@ -14,6 +14,7 @@
     <Window.Resources>
         <local:StateNameToVisibilityConverter x:Key="StateNameToVisibilityConverter"/>
         <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <local:ExistsOptionToBoolConverter x:Key="ExistsOptionToBoolConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -33,10 +34,15 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Margin="8 1" Text="Contratos" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="8 1" Text="Contratos Livres" FontSize="14" VerticalAlignment="Center"/>
+                <common:ActivationButton Margin="2" CanBeClicked="{Binding CurrentOptions, Converter={StaticResource ExistsOptionToBoolConverter}, ConverterParameter=BlindDraw}"
+                                         HideWhenUnclickable="True" Width="150" HorizontalAlignment="Right"
+                                         FontFamily="Arial" FontSize="13" Grid.Column="1" Click="BlindDraw_Click">
+                    <TextBlock Text="Contrato Aleatório" HorizontalAlignment="Center"/>
+                </common:ActivationButton>
                 <ItemsControl ItemsSource="{Binding Contracts}" Margin="2" Grid.Row="1">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -45,8 +51,11 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <common:ActivationButton Margin="2" IsLocked="False"
-                                                     CanBeClicked="True">
+                            <common:ActivationButton Margin="2" Click="ContractCard_Click"
+                                                     CanBeClicked="{Binding Path=DataContext.CurrentOptions, 
+                                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CEView}, 
+                                                                            Converter={StaticResource ExistsOptionToBoolConverter}, 
+                                                                            ConverterParameter=DrawFromContracts}">
                                 <parts:CardMini CardObject="{Binding}" Margin="1"
                                                 MouseEnter="CardMini_MouseEnter"
                                                 MouseLeave="CardMini_MouseLeave"/>
@@ -61,8 +70,43 @@
                           CurrentOptions="{Binding CurrentOptions}"
                           CanUpgradeChampion="{Binding CanUpgradeChampion}"
                           Grid.RowSpan="2" Grid.Column="1"
+                          ActionSelected="PlayerZone_ActionSelected"
+                          CardSelected="PlayerZone_CardSelected"
+                          RowSelected="PlayerZone_RowSelected"
+                          MoneyAddedToCard="PlayerZone_MoneyAddedToCard"
                           MouseOverCard="PlayerZone_MouseOverCard"
                           MouseOffCard="PlayerZone_MouseOutOfCard"/>
+        <StackPanel Grid.Column="2" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="FontFamily" Value="Arial" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5 0 10 0" />
+                </Style>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="2 0" />
+                    <Setter Property="Width" Value="22" />
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Talentos" Margin="0 0 5 0" FontSize="14"/>
+            <Image Source="/BoardGameClient;component/Resources/X1.png" />
+            <TextBlock Text="{Binding Player.Talents.X1}"/>
+            <Image Source="/BoardGameClient;component/Resources/X2.png" />
+            <TextBlock Text="{Binding Player.Talents.X2}"/>
+            <Image Source="/BoardGameClient;component/Resources/X3.png" />
+            <TextBlock Text="{Binding Player.Talents.X3}"/>
+            <Image Source="/BoardGameClient;component/Resources/X4.png" />
+            <TextBlock Text="{Binding Player.Talents.X4}"/>
+            <Image Source="/BoardGameClient;component/Resources/X5.png" />
+            <TextBlock Text="{Binding Player.Talents.X5}"/>
+            <Label Content="Rodada" Margin="5 2" FontSize="9" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Player.Round}"/>
+            <Label Content="Turno" Margin="5 2" FontSize="9" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Player.Turn}"/>
+        </StackPanel>
         <Grid Grid.Column="2" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="400"/>
@@ -79,14 +123,30 @@
                                  Visibility="{Binding SelectedBonusCard, Converter={StaticResource NullToVisibilityConverter}}"/>
                 <StackPanel Grid.Column="1">
                     <TextBlock Margin="5" Text="Talentos do Palco" FontSize="14" VerticalAlignment="Bottom"/>
-                    <parts:Stage CurrentStage="{Binding CurrentStage}"/>
+                    <parts:Stage CurrentStage="{Binding CurrentStage}"
+                                 CanReroll="{Binding CurrentOptions, Converter={StaticResource ExistsOptionToBoolConverter}, ConverterParameter=Reroll}"
+                                 CanTakeDice="{Binding CurrentOptions, Converter={StaticResource ExistsOptionToBoolConverter}, ConverterParameter=TakeDie}"
+                                 StageActionSelected="Stage_StageActionSelected"/>
                 </StackPanel>
             </Grid>
-            <parts:ChooseResources Visibility="{Binding StateName, Converter={StaticResource StateNameToVisibilityConverter}, ConverterParameter=ChooseResources}"
-                                   CardList="{Binding CardList}" BonusCardList="{Binding BonusCardList}" 
-                                   ResourcesTaken="ChooseResources_ResourcesTaken" Grid.Row="1"
-                                   MouseOverCard="PlayerZone_MouseOverCard"
-                                   MouseOffCard="PlayerZone_MouseOutOfCard"/>
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <parts:PlayCardCost Visibility="{Binding StateName, Converter={StaticResource StateNameToVisibilityConverter}, ConverterParameter=PayTalents}"
+                                    Cost="{Binding PayTalentsCost}" Talents="{Binding Player.Talents}" 
+                                    PaidTalents="PlayCardCost_PaidTalents"/>
+                <parts:DiscardTalent Visibility="{Binding StateName, Converter={StaticResource StateNameToVisibilityConverter}, ConverterParameter=EarnMoneyPayingTalent}"
+                                     Talents="{Binding Player.Talents}" 
+                                     TalentDiscarded="DiscardTalent_TalentChosen"/>
+                <parts:ChooseResources Visibility="{Binding StateName, Converter={StaticResource StateNameToVisibilityConverter}, ConverterParameter=ChooseResources}"
+                                       CardList="{Binding CardList}" BonusCardList="{Binding BonusCardList}"                                    
+                                       ResourcesTaken="ChooseResources_ResourcesTaken" 
+                                       MouseOverCard="PlayerZone_MouseOverCard"
+                                       MouseOffCard="PlayerZone_MouseOutOfCard"/>
+                <common:ActivationButton Visibility="{Binding StateName, Converter={StaticResource StateNameToVisibilityConverter}, ConverterParameter=TakeTalentPayingCard|EarnMoneyPayingTalent|DrawCardPayingMoney}"
+                                         CanBeClicked="True" IsLocked="False" Height="30" Margin="20 5"
+                                         Click="CancelButton_Click">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Cancelar"/>
+                </common:ActivationButton>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

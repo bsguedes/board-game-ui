@@ -10,6 +10,7 @@
         <convce:CEToImageConverter x:Key="CEToImageConverter"/>
         <convce:CEPhotoToImageConverter x:Key="CEPhotoToImageConverter"/>
         <convce:AbilityTypeToColorConverter x:Key="AbilityTypeToColorConverter"/>
+        <convce:AbilityTextToInlineCollectionConverter x:Key="BoardSlotToResourcesTextConverter"/>
     </UserControl.Resources>
     <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="2" x:Name="LayoutRoot">
         <Border.Background>
@@ -26,9 +27,13 @@
                 <TextBlock TextAlignment="Center" FontSize="14" FontStretch="Condensed" FontFamily="Arial"
                             Text="{Binding CardObject.Name, FallbackValue=CardNameTextSample}"/>
             </Viewbox>
-            <TextBlock Text="{Binding CardObject.Attribute, FallbackValue=AttributeSample}" 
-                           HorizontalAlignment="Center" Grid.Row="1"
+            <DockPanel Grid.Row="1">
+                <TextBlock convce:TextBlockExtensions.BindableInlines="{Binding CardsTalentsResourcesText, Converter={StaticResource BoardSlotToResourcesTextConverter}}"
+                           FontSize="13" FontFamily="Arial" TextAlignment="Right" VerticalAlignment="Center" DockPanel.Dock="Right"/>
+                <TextBlock Text="{Binding CardObject.Attribute, FallbackValue=AttributeSample}" 
+                           HorizontalAlignment="Center" DockPanel.Dock="Left"
                            VerticalAlignment="Center" FontFamily="Arial" FontSize="10" FontStyle="Italic"/>
+            </DockPanel>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
@@ -43,19 +48,27 @@
                            Height="14" Width="14" VerticalAlignment="Center"/>
                     </StackPanel>
                     <Image Source="{Binding CardObject.CE, Converter={StaticResource CEToImageConverter}}" Height="16"
-                       Margin="10 5" HorizontalAlignment="Left" VerticalAlignment="Center" DockPanel.Dock="Top"/>
+                       Margin="10 2" HorizontalAlignment="Left" VerticalAlignment="Center" DockPanel.Dock="Top"/>
                     <TextBlock Text="{Binding CardObject.CashRepresentation, FallbackValue=$$$}" Margin="2" TextWrapping="Wrap"
                            FontSize="10" FontWeight="Bold" VerticalAlignment="Center" DockPanel.Dock="Top"/>
                 </DockPanel>
-                <Image Source="{Binding CardObject.PhotoPath, Converter={StaticResource CEPhotoToImageConverter}}"
-                       Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{Binding CardObject.PhotoPath, Converter={StaticResource CEPhotoToImageConverter}}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"/>
+                </Grid>
             </Grid>
             <DockPanel Grid.Row="3">
                 <TextBlock Text="{Binding CardObject.Year, FallbackValue=2000}" DockPanel.Dock="Right"
                             FontFamily="Arial" FontSize="8"   
                             HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2 0"/>
                 <Image Source="/BoardGameClient;component/Resources/DN.png"
-                        DockPanel.Dock="Right" Height="10" HorizontalAlignment="Right"/>
+                       DockPanel.Dock="Right" Height="10" HorizontalAlignment="Right"/>
+                <TextBlock convce:TextBlockExtensions.BindableInlines="{Binding CashResourcesText, Converter={StaticResource BoardSlotToResourcesTextConverter}}"
+                           TextAlignment="Center" FontSize="13" FontFamily="Arial" DockPanel.Dock="Left" VerticalAlignment="Center" />
             </DockPanel>
         </Grid>
     </Border>

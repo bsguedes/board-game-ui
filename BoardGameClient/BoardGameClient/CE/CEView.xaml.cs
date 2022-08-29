@@ -69,5 +69,57 @@ namespace BoardGameClient.CE
         {
             PlayerZone_MouseOutOfCard();
         }
+
+        private void PlayerZone_ActionSelected(ViewModels.RowModel slot)
+        {
+            _viewModel.SelectTurnAction(slot);
+        }
+
+        private void Stage_StageActionSelected(CEDieOption dieOption, bool reroll)
+        {
+            _viewModel.StageAction(dieOption, reroll);
+        }
+
+        private void BlindDraw_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.BlindDrawCardFromDeck();
+        }
+
+        private void PlayerZone_CardSelected(CECard card)
+        {
+            _viewModel.UseCardFromHand(card);
+        }
+
+        private void PlayerZone_RowSelected(RowResource row)
+        {
+            _viewModel.RowSelected(row);
+        }
+
+        private void PlayCardCost_PaidTalents(CETalentDescriptor paidTalents)
+        {
+            _viewModel.PayTalents(paidTalents);
+        }
+
+        private void ContractCard_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic button = sender;
+            CECard card = button.Content.CardObject;
+            _viewModel.TakeCardFromContract(card);
+        }
+
+        private void PlayerZone_MoneyAddedToCard(CECard card)
+        {
+            _viewModel.CardOnBoardClicked(card);
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.CancelOptionalCost();
+        }
+
+        private void DiscardTalent_TalentChosen(string talent)
+        {
+            _viewModel.DiscardTalent(talent);
+        }
     }
 }

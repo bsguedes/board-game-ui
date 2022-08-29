@@ -73,19 +73,34 @@ namespace BoardGameClient.CE.Model
         {
             get
             {
-                string[] talents = Cost.Select(d => Enumerable.Repeat(d.Key, (int)Math.Ceiling(d.Value))).SelectMany(x => x).Select( y => "{" + y + "}").ToArray();
-                if (Cost.Values.All(x => x < 1))
-                {
-                    return string.Join(" / ", talents);
-                }
-                else
-                {
-                    return string.Join(" + ", talents);
-                }
+                return AsCostString(Cost);
             }
         }
 
         public bool IsSelected { get; set; }
+
+        public static string AsCostString(CEPayTalentCostDescriptor[] cost)
+        {
+            Dictionary<string, float> Cost = new Dictionary<string, float>();
+            foreach (var c in cost)
+            {
+                Cost.Add(c.Talent, c.Cost);
+            }
+            return CECard.AsCostString(Cost);
+        }
+
+        public static string AsCostString(Dictionary<string, float> Cost)
+        {
+            string[] talents = Cost.Select(d => Enumerable.Repeat(d.Key, (int)Math.Ceiling(d.Value))).SelectMany(x => x).Select(y => "{" + y + "}").ToArray();
+            if (Cost.Values.All(x => x < 1))
+            {
+                return string.Join(" / ", talents);
+            }
+            else
+            {
+                return string.Join(" + ", talents);
+            }
+        }
     }
 
     public class CEBonusCard

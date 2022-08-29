@@ -101,22 +101,38 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="Grade de Atrações" Grid.Column="0" Grid.ColumnSpan="2" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <TextBlock Text="$" Grid.Column="2" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Text="$" Grid.Column="3" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Text="$ $" Grid.Column="4" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Text="$ $" Grid.Column="5" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
             <parts:ProgrammingRow Cards="{Binding Player.Board.TopRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}" 
-                                  StateName="{Binding StateName}"
+                                  StateName="{Binding StateName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"                                  
                                   CurrentOptions="{Binding CurrentOptions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  ActionSelected="ProgrammingRow_ActionSelected"
+                                  RowSelected="ProgrammingRow_RowSelected"
+                                  MoneyAddedToCard="ProgrammingRow_MoneyAddedToCard"
+                                  MouseOverCard="Hand_MouseOverCard"
+                                  MouseOffCard="Hand_MouseOffCard"
                                   RowResource="Talents" Grid.Row="2"/>
             <parts:ProgrammingRow Cards="{Binding Player.Board.MidRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}" 
                                   StateName="{Binding StateName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
                                   CurrentOptions="{Binding CurrentOptions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  ActionSelected="ProgrammingRow_ActionSelected"
+                                  RowSelected="ProgrammingRow_RowSelected"
+                                  MoneyAddedToCard="ProgrammingRow_MoneyAddedToCard"
+                                  MouseOverCard="Hand_MouseOverCard"
+                                  MouseOffCard="Hand_MouseOffCard"
                                   RowResource="Cash" Grid.Row="3"/>
             <parts:ProgrammingRow Cards="{Binding Player.Board.BotRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}" 
                                   StateName="{Binding StateName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
                                   CurrentOptions="{Binding CurrentOptions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=parts:PlayerZone}}"
+                                  ActionSelected="ProgrammingRow_ActionSelected"
+                                  RowSelected="ProgrammingRow_RowSelected"
+                                  MoneyAddedToCard="ProgrammingRow_MoneyAddedToCard"
+                                  MouseOverCard="Hand_MouseOverCard"
+                                  MouseOffCard="Hand_MouseOffCard"
                                   RowResource="Cards" Grid.Row="4"/>
             <Grid Grid.Row="5">
                 <Grid.RowDefinitions>
@@ -127,15 +143,17 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="180"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Margin="3 1" Text="Mão" FontSize="14" VerticalAlignment="Bottom"/>
-                <TextBlock Margin="3 1" Text="Cartas Bônus" Grid.Column="1" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="3 1" Text="Contratações da Emissora" FontSize="14" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="3 1" Text="Audiência Bônus" Grid.Column="1" FontSize="14" VerticalAlignment="Bottom"/>
                 <parts:Hand Grid.Row="1" Margin="0 2" Grid.ColumnSpan="2"
                             CardList="{Binding Player.PlayerCards}" 
                             BonusCardList="{Binding Player.PlayerBonusCards}"
                             StateName="{Binding StateName}"
+                            Talents="{Binding Player.Talents}"
                             CurrentOptions="{Binding CurrentOptions}"
                             MouseOverCard="Hand_MouseOverCard"
-                            MouseOffCard="Hand_MouseOffCard"/>
+                            MouseOffCard="Hand_MouseOffCard"
+                            CardSelected="Hand_CardSelected"/>
             </Grid>
             
         </Grid>
